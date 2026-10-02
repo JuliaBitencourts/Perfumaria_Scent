@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Carrinho } from './pages/carrinho/carrinho';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Carrinho],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

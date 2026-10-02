@@ -1,0 +1,43 @@
+.navbar {
+    padding: 15px 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px #d9d0c1;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar-logo {
+    text-align: left;
+    font-size: 2.5rem;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+    color: #171512;
+    display: flex;
+    flex: 1;
+}
+
+.navbar-list {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    list-style: none;
+    font-family: "Inter", sans-serif;
+}
+
+.navbar-acoes {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-end;
+    font-family: "Inter", sans-serif;
+}
