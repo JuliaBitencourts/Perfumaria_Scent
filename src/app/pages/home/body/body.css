@@ -71,9 +71,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 900px;
-  background-color: #eae7e2;
-  color: #888888;
+  min-height: 500px;
   font-style: italic;
   font-size: 14px;
 }
@@ -200,7 +198,6 @@ body {
   background-color: rgba(0,0,0,0.02);
 }
 
-/* --- ESTILIZAÇÃO DO MANIFESTO (BLOCO ESCURO) --- */
 .manifesto-section {
   background-color: #1a1817;
   color: #ffffff;
@@ -252,8 +249,8 @@ body {
 }
 
 .manifesto-descricao {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.7;
   color: #cccccc;
   max-width: 420px;
   margin-bottom: 30px;

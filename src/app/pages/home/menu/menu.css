@@ -14,7 +14,7 @@
 .navbar-esquerda { 
   display: flex; 
   align-items: center; 
-  flex: 3; 
+  flex: 6; 
 }
 
 .navbar-list {
@@ -37,7 +37,7 @@
 
 .navbar-container .navbar-list a {
   color: #1a1a1a;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.5px;
@@ -49,10 +49,9 @@
   color: #555555;
 }
 
-/* --- ESTILO DOS LINKS  --- */
 .navbar-container .navbar-acoes a {
   color: #1a1a1a;
-  font-size: 13px;
+  font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
 }
@@ -64,7 +63,7 @@
 
 .navbar-container .navbar-esquerda a.navbar-logo {
   color: #000000;
-  font-size: 25px;
+  font-size: 28px;
   font-weight: 400;
   font-family: 'Times New Roman', Times, serif;
   letter-spacing: 2px;
