@@ -1,0 +1,40 @@
+.cabecalho {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.menu {
+  display: flex;
+  gap: 35px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #333333;
+  font-size: 15px;
+}
+
+.menu a:hover {
+  color: #777777;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+}
+
+.nome-usuario {
+  font-size: 14px;
+  color: #333333;
+}
