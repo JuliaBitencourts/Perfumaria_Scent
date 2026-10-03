@@ -8,7 +8,6 @@
     <a href="#">Produtos</a>
     <a href="#">Clientes</a>
     <a href="#">Pedidos</a>
-    <a href="#">Relatórios</a>
   </nav>
 
   <div class="usuario">
@@ -16,3 +15,221 @@
   </div>
 
 </header>
+
+<main class="catalogo">
+
+  <div class="titulo-catalogo">
+    <div>
+      <h1>Catálogo de Produtos</h1>
+      <p>Gerencie os produtos do seu catálogo</p>
+    </div>
+
+    <button class="btn-novo-produto">
+      + Novo Produto
+    </button>
+  </div>
+
+  <section class="indicadores">
+
+    <div class="card-indicador">
+      <div>
+        <p>Produtos Ativos</p>
+        <h2>128</h2>
+      </div>
+
+      <span class="icone">✓</span>
+    </div>
+
+    <div class="card-indicador">
+      <div>
+        <p>Estoque Baixo</p>
+        <h2>14</h2>
+      </div>
+
+      <span class="icone">!</span>
+    </div>
+
+    <div class="card-indicador">
+      <div>
+        <p>Esgotados</p>
+        <h2>6</h2>
+      </div>
+
+      <span class="icone">×</span>
+    </div>
+
+    <div class="card-indicador">
+      <div>
+        <p>Valor em Estoque</p>
+        <h2>R$ 0,00</h2>
+      </div>
+
+      <span class="icone">R$</span>
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<section class="filtros">
+
+  <div class="campo-filtro">
+    <label for="busca">Buscar</label>
+    <input
+      type="text"
+      id="busca"
+      placeholder="Nome ou fragrância"
+    >
+  </div>
+
+  <div class="campo-filtro">
+    <label for="categoria">Categoria</label>
+    <select id="categoria">
+      <option value="">Todas as categorias</option>
+      <option value="perfume">Perfume</option>
+      <option value="colonia">Colônia</option>
+      <option value="kit">Kit</option>
+      <option value="creme">Creme</option>
+    </select>
+  </div>
+
+  <div class="campo-filtro">
+    <label for="status">Status</label>
+    <select id="status">
+      <option value="">Todos os status</option>
+      <option value="ativo">Ativo</option>
+      <option value="estoque-baixo">Estoque baixo</option>
+      <option value="esgotado">Esgotado</option>
+    </select>
+  </div>
+
+  <button class="btn-filtrar">
+    Filtrar
+  </button>
+
+</section>
+
+<section class="tabela-produtos">
+
+  <div class="cabecalho-tabela">
+    <h2>Produtos</h2>
+  </div>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Categoria</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>Fragrância Saint</td>
+        <td>Perfume</td>
+        <td>R$ 199,90</td>
+        <td>25</td>
+        <td>Ativo</td>
+        <td>
+          <button class="btn-alterar">Alterar</button>
+          <button class="btn-excluir">Excluir</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Essência Floral</td>
+        <td>Colônia</td>
+        <td>R$ 149,90</td>
+        <td>8</td>
+        <td>Estoque baixo</td>
+        <td>
+          <button class="btn-alterar">Alterar</button>
+          <button class="btn-excluir">Excluir</button>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</section>
+
+
+
+<section class="alteracao-produto">
+
+  <div class="cabecalho-alteracao">
+    <div>
+      <h2>Alterar Produto</h2>
+      <p>Edite as informações do produto selecionado</p>
+    </div>
+  </div>
+
+  <div class="formulario-produto">
+
+    <div class="campo-produto">
+      <label for="nome-produto">Nome do produto</label>
+      <input
+        type="text"
+        id="nome-produto"
+        value="Íris de Seda"
+      >
+    </div>
+
+    <div class="campo-produto">
+      <label for="sku">SKU</label>
+      <input
+        type="text"
+        id="sku"
+        value="IRIS-001"
+      >
+    </div>
+
+    <div class="campo-produto">
+      <label for="volume">Volume</label>
+      <input
+        type="text"
+        id="volume"
+        value="100 ml"
+      >
+    </div>
+
+    <div class="campo-produto">
+      <label for="estoque">Estoque</label>
+      <input
+        type="number"
+        id="estoque"
+        value="25"
+      >
+    </div>
+
+    <div class="campo-produto">
+      <label for="preco">Preço</label>
+      <input
+        type="text"
+        id="preco"
+        value="R$ 199,90"
+      >
+    </div>
+
+  </div>
+
+  <div class="acoes-produto">
+    <button class="btn-salvar">
+      Salvar alterações
+    </button>
+
+    <button class="btn-excluir-produto">
+      Excluir
+    </button>
+  </div>
+
+</section>
