@@ -21,7 +21,7 @@ export class Login {
 
     if (this.perfil === 'admin') {
       if (this.email === 'admin@scent.com' && this.senha === '1234') {
-        this.router.navigate(['/crud']);
+        this.router.navigate(['admin/Crud']);
       } else {
         this.erro = 'E-mail ou senha incorretos.';
       }

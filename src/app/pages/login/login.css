@@ -23,6 +23,8 @@
   font-family: 'Cormorant Garamond', serif;
   font-size: 28px;
   letter-spacing: 2px;
+  color: inherit;
+  text-decoration: none;
 }
 
 .frase h2 {

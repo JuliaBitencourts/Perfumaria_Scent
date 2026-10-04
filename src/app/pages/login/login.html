@@ -1,33 +1,35 @@
 <main class="login-pagina">
     
     <section class="lado-imagem">
-        <span class="logo">SCENT</span>
+           <a href="/" class="logo">SCENT</a>
 
         <div class="frase">
             <h2>Sua coleção começa<br>com uma memória.</h2>
+            <p>Perfumes de autor, escolhidos para permanecer.</p>
         </div>
     </section>
 
     <section class="lado-formulario">
         <div class="conteudo">
 
-            <div class="abas">
-                <input type="radio" name="tipo-acesso" id="aba-cliente" checked (change)="perfil = 'cliente'">
-                <label for="aba-cliente">Cliente</label>
-
-                <input type="radio" name="tipo-acesso" id="aba-admin" (change)="perfil = 'admin'">
-                <label for="aba-admin">Administrador</label>
-            </div>
-
             <form class="cartao" (ngSubmit)="entrar()">
+
+                <div class="abas">
+                    <input type="radio" name="perfil" id="aba-cliente" value="cliente" [(ngModel)]="perfil">
+                    <label for="aba-cliente">Cliente</label>
+
+                    <input type="radio" name="perfil" id="aba-admin" value="admin" [(ngModel)]="perfil">
+                    <label for="aba-admin">Administrador</label>
+                </div>
+
                 <h1>Seja bem vindo</h1>
-                <p class="subtitulo">Acesse seus pedidos, favoritos e preferências olfativas.</p>
 
                 <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="nome@exemplo.com" required>
+                <input type="email" id="email" name="email" placeholder="nome@exemplo.com" required [(ngModel)]="email">
 
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" [(ngModel)]="senha" placeholder="••••••••" required>
+                <input type="password" id="senha" name="senha" placeholder="••••••••" required [(ngModel)]="senha">
+
                 <div class="opcoes">
                     <label class="lembrar">
                         <input type="checkbox"> Lembrar de mim
@@ -45,20 +47,18 @@
                     Ainda não tem conta? <a href="/pessoas/cadastro">Criar cadastro</a>
                 </p>
                 }
-
             </form>
-            @if (perfil === 'admin') {
-            <div class="aviso-admin">
-                <span class="icone">◇</span>
-                <div>
-                    <strong>Acesso administrativo</strong>
-                    <p>Área restrita para gestão da loja. Selecione "Administrador" acima.</p>
-                </div>
-            </div>
-            }
 
+                  @if (perfil === 'cliente') {
+        <div class="aviso-admin">
+          <span class="icone">◇</span>
+          <div>
+            <strong>Acesso administrativo</strong>
+            <p>Área restrita para gestão da loja. Selecione "Administrador" acima.</p>
+          </div>
         </div>
-
+      }
+        </div>
     </section>
 
 </main>

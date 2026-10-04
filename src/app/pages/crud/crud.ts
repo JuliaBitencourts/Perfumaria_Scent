@@ -59,17 +59,12 @@ export class Crud {
   ];
 
 
-  // Produtos que serão mostrados na tabela
   produtosFiltrados: Produto[] = [];
 
-
-  // Campos dos filtros
   busca: string = '';
   categoriaSelecionada: string = '';
   statusSelecionado: string = '';
 
-
-  // Produto que está sendo alterado
   produtoSelecionado: Produto | null = null;
 
 
@@ -77,10 +72,6 @@ export class Crud {
     this.produtosFiltrados = [...this.produtos];
   }
 
-
-  // =========================
-  // DEFINIR STATUS
-  // =========================
 
   definirStatus(estoque: number): string {
 
@@ -95,10 +86,6 @@ export class Crud {
     return 'ativo';
   }
 
-
-  // =========================
-  // FILTRAR PRODUTOS
-  // =========================
 
   filtrarProdutos(): void {
 
@@ -128,10 +115,6 @@ export class Crud {
   }
 
 
-  // =========================
-  // ALTERAR PRODUTO
-  // =========================
-
   alterarProduto(produto: Produto): void {
 
     this.produtoSelecionado = {
@@ -140,19 +123,12 @@ export class Crud {
 
   }
 
-
-  // =========================
-  // SALVAR ALTERAÇÃO
-  // =========================
-
   salvarAlteracao(): void {
 
     if (!this.produtoSelecionado) {
       return;
     }
 
-
-    // Atualiza o status de acordo com o estoque
     this.produtoSelecionado.status =
       this.definirStatus(
         this.produtoSelecionado.estoque
@@ -179,11 +155,6 @@ export class Crud {
 
   }
 
-
-  // =========================
-  // EXCLUIR PRODUTO
-  // =========================
-
   excluirProduto(id: number): void {
 
     const confirmar = confirm(
@@ -200,8 +171,6 @@ export class Crud {
       produto => produto.id !== id
     );
 
-
-    // Se o produto excluído estava sendo editado
     if (this.produtoSelecionado?.id === id) {
       this.produtoSelecionado = null;
     }
@@ -210,11 +179,6 @@ export class Crud {
     this.filtrarProdutos();
 
   }
-
-
-  // =========================
-  // NOVO PRODUTO
-  // =========================
 
   novoProduto(): void {
 
@@ -250,10 +214,6 @@ export class Crud {
   }
 
 
-  // =========================
-  // GERAR ID
-  // =========================
-
   gerarNovoId(): number {
 
     if (this.produtos.length === 0) {
@@ -269,10 +229,6 @@ export class Crud {
 
   }
 
-
-  // =========================
-  // INDICADORES
-  // =========================
 
   get produtosAtivos(): number {
 
