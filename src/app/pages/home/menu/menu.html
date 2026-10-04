@@ -1,18 +1,21 @@
-<nav class="navbar">
+<nav class="navbar" aria-label = "Navegação Principal">
     <div class="navbar-container">
         <div class="navbar-esquerda">
 
             <a class="navbar-logo" href="/">Scent</a>
 
             <ul class="navbar-list">
-                <li><a href="#novidades">Novidades</a></li>
-                <li><a href="#nossa-essencia">Nossa Essência</a></li>
-                <li><a href="#perfumes">Perfumes</a></li>
+
+                @for(item of itensMenu; track item) {
+                <li class = "navbar-item">
+                    <a [routerLink] = "item.link">{{item.label}}</a>
+                    </li>
+                }
             </ul>
         </div>
         <div class="navbar-acoes">
-            <a href="#minha-conta">Minha Conta</a>
-            <a href="#carrinho">🛒Carrinho</a>
+            <a [routerLink] = "'/minha-conta'">Minha Conta</a>
+            <a [routerLink] = "'/carrinho'">🛒Carrinho</a>
         </div>
     </div>
 </nav>
