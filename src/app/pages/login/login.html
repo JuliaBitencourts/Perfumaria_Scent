@@ -1,1 +1,64 @@
-<p>login works!</p>
+<main class="login-pagina">
+
+    <section class="lado-imagem">
+        <span class="logo">SCENT</span>
+
+        <div class="frase">
+            <h2>Sua coleção começa<br>com uma memória.</h2>
+        </div>
+    </section>
+
+    <section class="lado-formulario">
+        <div class="conteudo">
+
+            <div class="abas">
+                <input type="radio" name="tipo-acesso" id="aba-cliente" checked (change)="perfil = 'cliente'">
+                <label for="aba-cliente">Cliente</label>
+
+                <input type="radio" name="tipo-acesso" id="aba-admin" (change)="perfil = 'admin'">
+                <label for="aba-admin">Administrador</label>
+            </div>
+
+            <form class="cartao" (ngSubmit)="entrar()">
+                <h1>Seja bem vindo</h1>
+                <p class="subtitulo">Acesse seus pedidos, favoritos e preferências olfativas.</p>
+
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="nome@exemplo.com" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" [(ngModel)]="senha" placeholder="••••••••" required>
+                <div class="opcoes">
+                    <label class="lembrar">
+                        <input type="checkbox"> Lembrar de mim
+                    </label>
+                </div>
+
+                @if (erro) {
+                <p class="erro">{{ erro }}</p>
+                }
+
+                <button type="submit" class="botao-entrar">Entrar na minha conta</button>
+
+                @if (perfil === 'cliente') {
+                <p class="cadastro">
+                    Ainda não tem conta? <a href="/pessoas/cadastro">Criar cadastro</a>
+                </p>
+                }
+
+            </form>
+            @if (perfil === 'admin') {
+            <div class="aviso-admin">
+                <span class="icone">◇</span>
+                <div>
+                    <strong>Acesso administrativo</strong>
+                    <p>Área restrita para gestão da loja. Selecione "Administrador" acima.</p>
+                </div>
+            </div>
+            }
+
+        </div>
+
+    </section>
+
+</main>

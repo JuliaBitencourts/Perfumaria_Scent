@@ -1,0 +1,234 @@
+.login-pagina {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.lado-imagem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px;
+  color: #ffffff;
+  background-color: #1a1410;
+  background-image:
+    linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.1) 50%),
+    url('/images/login-perfume.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  letter-spacing: 2px;
+}
+
+.frase h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.1;
+  margin: 0 0 12px;
+}
+
+.lado-formulario {
+  background-color: #f3efe8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.conteudo {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.abas {
+  display: flex;
+  background-color: #e6dfd3;
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.abas input {
+  display: none;
+}
+
+.abas label {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a7f70;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.abas input:checked + label {
+  background-color: #ffffff;
+  color: #2b2520;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.cartao {
+  background-color: #fbf9f5;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 10px 30px rgba(60, 45, 30, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.cartao h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 34px;
+  color: #2b2520;
+  margin: 0 0 6px;
+}
+
+.subtitulo {
+  font-size: 13px;
+  color: #8a7f70;
+  margin: 0 0 24px;
+}
+
+.cartao > label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a7f70;
+  margin-bottom: 6px;
+}
+
+.cartao input[type="email"],
+.cartao input[type="password"] {
+  padding: 12px 14px;
+  border: 1px solid #ddd5c8;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.cartao input:focus {
+  outline: none;
+  border-color: #2b2520;
+}
+.opcoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+
+.lembrar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #5c5248;
+  cursor: pointer;
+}
+
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #2b2520;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.botao-entrar {
+  align-self: flex-start;
+  background-color: #2b2a33;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.botao-entrar:hover {
+  background-color: #000000;
+}
+
+.cadastro {
+  text-align: center;
+  font-size: 13px;
+  color: #8a7f70;
+  margin: 24px 0 0;
+}
+
+.cadastro a {
+  color: #2b2520;
+  text-decoration: none;
+}
+
+.cadastro a:hover {
+  text-decoration: underline;
+}
+
+.aviso-admin {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border: 1px solid #ddd5c8;
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.icone {
+  font-size: 18px;
+  line-height: 1;
+  color: #2b2520;
+}
+
+.aviso-admin strong {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #2b2520;
+  margin-bottom: 4px;
+}
+
+.aviso-admin p {
+  margin: 0;
+  font-size: 12px;
+  color: #8a7f70;
+}
+
+.link:focus-visible {
+     outline: 1px solid #8a7f70;
+     outline-offset: 3px;
+   }
+
+   .erro {
+  color: #b3261e;
+  font-size: 13px;
+  margin: 0 0 16px;
+}
