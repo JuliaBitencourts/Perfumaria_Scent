@@ -165,7 +165,7 @@ a {
 
 .resumo-pedido {
   width: 350px;
-  min-height: 420px;
+  min-height: 300px;
   padding: 25px 24px 20px;
   background-color: #fffdf9;
   border-radius: 13px;
@@ -173,8 +173,7 @@ a {
   color: #29251f;
   position: fixed;
   right: 2%;
-  top: 45%;
-  transform: translateY(-50%);
+  top: 21%;
 }
 
 .resumo-pedido h2 {
@@ -304,7 +303,7 @@ a {
 .selecao {
   display: block;
   color: #a47b35;
-  font-size: 8px;
+  font-size: 10px;
   margin-bottom: 8px;
   text-transform: uppercase;
 }
