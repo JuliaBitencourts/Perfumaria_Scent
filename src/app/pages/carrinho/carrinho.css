@@ -75,10 +75,23 @@ a {
   justify-content: flex-end;
 }
 
+.navbar-acoes a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #171512;
+}
+
 .navbar-acoes img {
   margin-right: 6px;
   width: 16px;
   height: 16px;
+}
+
+.navbar-acoes a:hover {
+  text-decoration: underline;
+  color: black;
 }
 
 /* Fim do menu */
@@ -559,6 +572,16 @@ a {
 
 .preco2 span:hover {
   color: red;
+}
+
+.produto + .produto {
+  margin-top: 15px;
+}
+
+.carrinho-vazio {
+  margin-top: 50px;
+  font-size: 14px;
+  color: #6b645b;
 }
 
 /* fim */
