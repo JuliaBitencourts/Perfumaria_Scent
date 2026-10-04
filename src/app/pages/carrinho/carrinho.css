@@ -2,16 +2,26 @@
   box-sizing: border-box;
 }
 
+:host {
+  display: block;
+  font-family: "Inter", sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #f8f5ed;
   color: #171717;
 }
 
+button,
+input {
+  font-family: inherit;
+}
+
 h1 {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: "Cormorant", serif;
   font-size: 26px;
   font-weight: 400;
 }
@@ -39,7 +49,7 @@ a {
 .navbar-logo {
   text-align: left;
   font-size: 2.5rem;
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant", serif;
   font-weight: 700;
   color: #171512;
   display: flex;
@@ -51,7 +61,11 @@ a {
   align-items: center;
   gap: 50px;
   list-style: none;
-  font-family: "Inter", sans-serif;
+}
+
+.navbar-list a:hover {
+  text-decoration: underline;
+  color: black;
 }
 
 .navbar-acoes {
@@ -59,7 +73,12 @@ a {
   gap: 20px;
   flex: 1;
   justify-content: flex-end;
-  font-family: "Inter", sans-serif;
+}
+
+.navbar-acoes img {
+  margin-right: 6px;
+  width: 16px;
+  height: 16px;
 }
 
 /* Fim do menu */
@@ -112,8 +131,7 @@ a {
 
 .produto-categoria {
   margin-bottom: 2px;
-  font-family: "Inter", sans-serif;
-  font-size: 7px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.5px;
   color: #a87b48;
@@ -129,14 +147,12 @@ a {
 
 .produto-texto p {
   margin: 0 0 4px 0;
-  font-family: "Inter", sans-serif;
   font-size: 8px;
   font-weight: 400;
   color: #81796f;
 }
 
 .produto-preco {
-  font-family: "Inter", sans-serif;
   font-size: 8px;
   font-weight: 500;
   color: #302820;
@@ -147,7 +163,6 @@ a {
   border: 1px solid #ddd4c7;
   border-radius: 20px;
   background: transparent;
-  font-family: "Inter", sans-serif;
   font-size: 7px;
   font-weight: 600;
   color: #302820;
@@ -178,7 +193,7 @@ a {
 
 .resumo-pedido h2 {
   margin: 0 0 19px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Cormorant", serif;
   font-size: 19px;
   font-weight: 400;
 }
@@ -197,7 +212,6 @@ a {
   border-radius: 4px;
   background-color: #fffefa;
   outline: none;
-  font-family: Arial, sans-serif;
   font-size: 10px;
 }
 
@@ -212,7 +226,6 @@ a {
   border: 1px solid #ded9cf;
   border-radius: 18px;
   background-color: #fffdf9;
-  font-family: Arial, sans-serif;
   font-size: 8px;
   font-weight: bold;
   cursor: pointer;
@@ -227,7 +240,6 @@ a {
   display: flex;
   justify-content: space-between;
   margin-bottom: 9px;
-  font-family: Arial, sans-serif;
   font-size: 9px;
   color: #777269;
 }
@@ -248,20 +260,18 @@ a {
 }
 
 .total span {
-  font-family: Arial, sans-serif;
   font-size: 9px;
   font-weight: bold;
 }
 
 .total strong {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Cormorant", serif;
   font-size: 18px;
   font-weight: 400;
 }
 
 .parcelamento {
   margin: 0 0 16px;
-  font-family: Arial, sans-serif;
   font-size: 8px;
   color: #888279;
 }
@@ -273,7 +283,6 @@ a {
   border-radius: 20px;
   background-color: #1d1c19;
   color: white;
-  font-family: Arial, sans-serif;
   font-size: 8px;
   font-weight: bold;
   cursor: pointer;
@@ -286,7 +295,6 @@ a {
 .rodape {
   margin: 15px 0 0;
   text-align: center;
-  font-family: Arial, sans-serif;
   font-size: 7px;
   color: #aaa49a;
 }
@@ -342,7 +350,7 @@ a {
 
 .produto-info h2 {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: "Cormorant", serif;
   font-size: 14px;
   font-weight: 400;
 }
@@ -384,13 +392,21 @@ a {
   cursor: pointer;
 }
 
+.quantidade button.btn-quantidade-menos:hover {
+  color: red;
+}
+
+.quantidade button.btn-quantidade-mais:hover {
+  color: green;
+}
+
 .quantidade span {
   margin: 0 9px;
   font-size: 10px;
 }
 
 .preco {
-  width: 200px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -399,7 +415,7 @@ a {
 .preco strong {
   font-size: 9px;
   white-space: nowrap;
-  width: 190px;
+  width: 60px;
 }
 
 .preco span {
@@ -407,7 +423,11 @@ a {
   font-size: 7px;
   color: #999;
   cursor: pointer;
-  width: 190px;
+  width: 60px;
+}
+
+.preco span:hover {
+  color: red;
 }
 
 /* fim */
@@ -461,7 +481,7 @@ a {
 
 .produto-info2 h2 {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: "Cormorant", serif;
   font-size: 14px;
   font-weight: 400;
 }
@@ -503,13 +523,21 @@ a {
   cursor: pointer;
 }
 
+.quantidade2 button.btn-quantidade-menos:hover {
+  color: red;
+}
+
+.quantidade2 button.btn-quantidade-mais:hover {
+  color: green;
+}
+
 .quantidade2 span {
   margin: 0 9px;
   font-size: 10px;
 }
 
 .preco2 {
-  width: 200px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -518,7 +546,7 @@ a {
 .preco2 strong {
   font-size: 9px;
   white-space: nowrap;
-  width: 190px;
+  width: 60px;
 }
 
 .preco2 span {
@@ -526,7 +554,11 @@ a {
   font-size: 7px;
   color: #999;
   cursor: pointer;
-  width: 190px;
+  width: 60px;
+}
+
+.preco2 span:hover {
+  color: red;
 }
 
 /* fim */
