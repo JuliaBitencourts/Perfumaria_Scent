@@ -81,6 +81,11 @@ a {
   height: 16px;
 }
 
+.navbar-acoes a:hover {
+  text-decoration: underline;
+  color: black;
+}
+
 /* Fim do menu */
 
 /* Inicio das recomendações */
@@ -559,6 +564,16 @@ a {
 
 .preco2 span:hover {
   color: red;
+}
+
+.produto + .produto {
+  margin-top: 15px;
+}
+
+.carrinho-vazio {
+  margin-top: 50px;
+  font-size: 14px;
+  color: #6b645b;
 }
 
 /* fim */

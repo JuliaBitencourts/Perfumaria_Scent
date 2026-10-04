@@ -17,7 +17,7 @@
             </ul>
         <div class="navbar-acoes">
             <a routerLink="/pessoas/cadastro"><img src="/circle-user-regular-full.svg" alt="conta">Minha conta</a>
-            <a routerLink="/pessoas/carrinho"><img src="/cart-shopping-solid-full.svg" alt="Carrinho">Carrinho (2)</a>
+            <a routerLink="/pessoas/carrinho"><img src="/cart-shopping-solid-full.svg" alt="Carrinho">Carrinho ({{ produtos.length }})</a>
         </div>
     </div>
 </nav>
@@ -85,12 +85,12 @@
 
     <div class="linha-detalhe">
       <span>Subtotal</span>
-      <span>R$ 1.268,00</span>
+      <span>{{ formatar(subtotal) }}</span>
     </div>
 
     <div class="linha-detalhe">
       <span>Frete — Sedex</span>
-      <span>R$ 24,90</span>
+      <span>{{ formatar(frete) }}</span>
     </div>
 
     <div class="linha-detalhe">
@@ -102,11 +102,11 @@
 
   <div class="total">
     <span>TOTAL</span>
-    <strong>R$ 1.292,90</strong>
+    <strong>{{ formatar(total) }}</strong>
   </div>
 
   <p class="parcelamento">
-    OU 6x de R$ 215,48 sem juros
+    OU 6x de {{ formatar(parcela) }} sem juros
   </p>
 
   <button class="finalizar-compra">
@@ -119,7 +119,7 @@
 
 </div>
 
-<!-- Primeira selecao de produto-->
+<!-- Selecao de produtos-->
 
 <div class="carrinho">
 
@@ -127,83 +127,47 @@
 
   <h1>Carrinho de compras</h1>
 
-  <p class="subtitulo">2 produtos reservados para você</p>
+  <p class="subtitulo">{{ produtos.length }} {{ produtos.length === 1 ? 'produto reservado' : 'produtos reservados' }} para você</p>
 
-  <div class="produto">
+  @if (produtos.length === 0) {
+    <p class="carrinho-vazio">Seu carrinho está vazio.</p>
+  }
 
-    <img
-      src="/ambar-noturno.webp"
-      alt="Âmbar Noturno"
-      class="produto-imagem"
-    >
+  @for (p of produtos; track p.id) {
+    <div class="produto">
 
-    <div class="produto-info">
+      <img
+        [src]="p.imagem"
+        [alt]="p.nome"
+        class="produto-imagem"
+      >
 
-      <h2>Âmbar Noturno</h2>
+      <div class="produto-info">
 
-      <p class="descricao">Eau de Parfum · 75 ml</p>
+        <h2>{{ p.nome }}</h2>
 
-      <div class="estoque">
-        <span class="bolinha"></span>
-        Em estoque · envio em até 2 dias úteis
+        <p class="descricao">{{ p.descricao }}</p>
+
+        <div class="estoque">
+          <span class="bolinha"></span>
+          Em estoque · envio em até 2 dias úteis
+        </div>
+
+      </div>
+
+      <div class="quantidade">
+        <button class="btn-quantidade-menos" (click)="diminuir(p.id)">-</button>
+        <span>{{ p.quantidade }}</span>
+        <button class="btn-quantidade-mais" (click)="aumentar(p.id)">+</button>
+      </div>
+
+      <div class="preco">
+        <strong>{{ formatar(p.preco) }}</strong>
+        <span (click)="excluir(p.id)">Excluir</span>
       </div>
 
     </div>
-
-    <div class="quantidade">
-      <button class="btn-quantidade-menos">-</button>
-      <span>1</span>
-      <button class="btn-quantidade-mais">+</button>
-    </div>
-
-    <div class="preco">
-      <strong>R$ 689,00</strong>
-      <span>Excluir</span>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- Fim -->
-
-<!-- Segunda selecao de produto-->
-
-<div class="carrinho2">
-
-  <div class="produto2">
-
-    <img
-      src="/Produto.png"
-      alt="Íris de Seda"
-      class="produto-imagem2"
-    >
-
-    <div class="produto-info2">
-
-      <h2>Íris de Seda</h2>
-
-      <p class="descricao2">Eau de Parfum · 50 ml</p>
-
-      <div class="estoque2">
-        <span class="bolinha2"></span>
-        Em estoque · envio em até 2 dias úteis
-      </div>
-
-    </div>
-
-    <div class="quantidade2">
-      <button class="btn-quantidade-menos">-</button>
-      <span>1</span>
-      <button class="btn-quantidade-mais">+</button>
-    </div>
-
-    <div class="preco2">
-      <strong>R$ 579,00</strong>
-      <span>Excluir</span>
-    </div>
-
-  </div>
+  }
 
 </div>
 
