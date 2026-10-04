@@ -75,6 +75,14 @@ a {
   justify-content: flex-end;
 }
 
+.navbar-acoes a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #171512;
+}
+
 .navbar-acoes img {
   margin-right: 6px;
   width: 16px;
