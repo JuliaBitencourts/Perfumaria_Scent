@@ -4,15 +4,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 50px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
+  background-color: #24201B;
+  border-bottom: 1px solid #E6D3B2;
 }
 
 .logo {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 25px;
   letter-spacing: 1px;
+  color: #ffffff;
 }
+
 
 .menu {
   display: flex;
@@ -21,7 +22,7 @@
 
 .menu a {
   text-decoration: none;
-  color: #333333;
+  color: #ffffff;
   font-size: 15px;
 }
 
@@ -32,11 +33,6 @@
 .usuario {
   display: flex;
   align-items: center;
-}
-
-.nome-usuario {
-  font-size: 14px;
-  color: #333333;
 }
 
 .catalogo {
@@ -116,7 +112,6 @@
   font-weight: bold;
 }
 
-/* Área de filtros */
 .filtros {
   display: flex;
   align-items: flex-end;
@@ -128,7 +123,6 @@
   border-radius: 10px;
 }
 
-/* Campos dos filtros */
 .campo-filtro {
   display: flex;
   flex-direction: column;
@@ -159,7 +153,6 @@
   border-color: #888888;
 }
 
-/* Botão Filtrar */
 .btn-filtrar {
   height: 42px;
   padding: 0 22px;
@@ -174,7 +167,6 @@
 .btn-filtrar:hover {
   background-color: #444444;
 }
-
 
 .tabela-produtos {
   margin-top: 30px;
@@ -194,7 +186,6 @@
   font-size: 20px;
   font-weight: 600;
 }
-
 
 .tabela-produtos table {
   width: 100%;
@@ -243,8 +234,6 @@
 .btn-excluir:hover {
   background-color: #444444;
 }
-
-
 
 .alteracao-produto {
   margin-top: 30px;
@@ -338,3 +327,4 @@
 .btn-excluir-produto:hover {
   background-color: #f2f2f2;
 }
+ 
