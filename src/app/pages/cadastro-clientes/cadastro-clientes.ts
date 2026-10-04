@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Menu } from '../menu/menu';
+
 interface Cliente {
   id: number;
   nome: string;
@@ -15,7 +17,7 @@ interface Cliente {
 
 @Component({
   selector: 'app-cadastro-clientes',
-  imports: [FormsModule],
+  imports: [FormsModule, Menu],
   templateUrl: './cadastro-clientes.html',
   styleUrl: './cadastro-clientes.css',
 })

@@ -1,0 +1,72 @@
+.navbar {
+  padding: 24px 48px;
+  background-color: #faf9f6;
+  color: #000000;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-esquerda { 
+  display: flex; 
+  align-items: center; 
+  flex: 6; 
+}
+
+.navbar-list {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin: 0 auto; 
+  padding: 0; 
+  list-style: none;
+}
+
+.navbar-acoes {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+
+.navbar-container .navbar-list a {
+  color: #1a1a1a;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar-container .navbar-list a:hover {
+  color: #555555;
+}
+
+.navbar-container .navbar-acoes a {
+  color: #1a1a1a;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+
+.navbar-container .navbar-acoes a:hover {
+  color: #555555;
+}
+
+
+.navbar-container .navbar-esquerda a.navbar-logo {
+  color: #000000;
+  font-size: 28px;
+  font-weight: 400;
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+}

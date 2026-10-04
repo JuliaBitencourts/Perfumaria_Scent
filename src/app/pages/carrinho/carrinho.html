@@ -1,3 +1,5 @@
+<app-menu></app-menu>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -5,22 +7,149 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 
-<!-- INICIO DO MENU -->
+<div class="produto-barra">
 
-<nav class="navbar">
-    <div class="navbar-container">
-            <a class="navbar-logo" href="/">SCENT</a>
-            <ul class="navbar-list">
-                <li><a href="#perfumes">Perfumes</a></li>
-                <li><a href="#novidades">Novidades</a></li>
-                <li><a href="#presentes">Presentes</a></li>
-                <li><a href="#nossa-essencia">Nossa essência</a></li>
-            </ul>
-        <div class="navbar-acoes">
-            <a href="#minha-conta">Minha conta</a>
-            <a href="#carrinho">Carrinho</a>
+    <div class="produto-info-inferior">
+
+        <div class="produto-imagem">
+            <img src="/creme-corporal-ambar.jpg" alt="Creme Corporal Âmbar">
         </div>
-    </div>
-</nav>
 
-<!-- FIM DO MENU -->
+        <div class="produto-texto">
+
+            <span class="produto-categoria">
+                COMPLETE O RITUAL
+            </span>
+
+            <h3>
+                Creme Corporal Âmbar
+            </h3>
+
+            <p>
+                Prolonga a presença de Âmbar Noturno com hidratação acetinada e perfume delicado.
+            </p>
+
+            <span class="produto-preco">
+                R$ 219,00
+            </span>
+
+        </div>
+
+    </div>
+
+    <button class="btn-carrinho">
+        ADICIONAR AO CARRINHO
+    </button>
+
+</div>
+
+<!-- FIM DA INDICAÇÃO -->
+
+<!-- RESUMO PEDIDO -->
+
+<div class="resumo-pedido">
+
+  <h2>Resumo do pedido</h2>
+
+  <div class="cupom">
+    <input
+      type="text"
+      placeholder="Digite seu cupom"
+    />
+
+    <button>
+      APLICAR
+    </button>
+  </div>
+
+  <div class="detalhes">
+
+    <div class="linha-detalhe">
+      <span>Subtotal</span>
+      <span>{{ formatar(subtotal) }}</span>
+    </div>
+
+    <div class="linha-detalhe">
+      <span>Frete — Sedex</span>
+      <span>{{ formatar(frete) }}</span>
+    </div>
+
+    <div class="linha-detalhe">
+      <span>Amostras selecionadas</span>
+      <span>Cortesia</span>
+    </div>
+
+  </div>
+
+  <div class="total">
+    <span>TOTAL</span>
+    <strong>{{ formatar(total) }}</strong>
+  </div>
+
+  <p class="parcelamento">
+    OU 6x de {{ formatar(parcela) }} sem juros
+  </p>
+
+  <button class="finalizar-compra">
+    FINALIZAR COMPRA →
+  </button>
+
+  <p class="rodape">
+    Pagamento seguro · Troca em até 30 dias
+  </p>
+
+</div>
+
+<!-- Selecao de produtos-->
+
+<div class="carrinho">
+
+  <span class="selecao">SUA SELEÇÃO</span>
+
+  <h1>Carrinho de compras</h1>
+
+  <p class="subtitulo">{{ produtos.length }} {{ produtos.length === 1 ? 'produto reservado' : 'produtos reservados' }} para você</p>
+
+  @if (produtos.length === 0) {
+    <p class="carrinho-vazio">Seu carrinho está vazio.</p>
+  }
+
+  @for (p of produtos; track p.id) {
+    <div class="produto">
+
+      <img
+        [src]="p.imagem"
+        [alt]="p.nome"
+        class="produto-imagem"
+      >
+
+      <div class="produto-info">
+
+        <h2>{{ p.nome }}</h2>
+
+        <p class="descricao">{{ p.descricao }}</p>
+
+        <div class="estoque">
+          <span class="bolinha"></span>
+          Em estoque · envio em até 2 dias úteis
+        </div>
+
+      </div>
+
+      <div class="quantidade">
+        <button class="btn-quantidade-menos" (click)="diminuir(p.id)">-</button>
+        <span>{{ p.quantidade }}</span>
+        <button class="btn-quantidade-mais" (click)="aumentar(p.id)">+</button>
+      </div>
+
+      <div class="preco">
+        <strong>{{ formatar(p.preco) }}</strong>
+        <span (click)="excluir(p.id)">Excluir</span>
+      </div>
+
+    </div>
+  }
+
+</div>
+
+<!-- Fim -->

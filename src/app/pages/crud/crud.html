@@ -1,0 +1,356 @@
+<header class="cabecalho">
+
+  <div class="logo">
+    SCENT
+  </div>
+
+  <nav class="menu">
+    <a href="#">Produtos</a>
+    <a href="#">Clientes</a>
+    <a href="#">Pedidos</a>
+  </nav>
+
+  <div class="usuario">
+    <span class="nome-usuario">
+      {{ nomeAdministrador }}
+    </span>
+  </div>
+
+</header>
+
+
+<main class="catalogo">
+
+  <div class="titulo-catalogo">
+
+    <div>
+      <h1>Catálogo de Produtos</h1>
+      <p>Gerencie os produtos do seu catálogo</p>
+    </div>
+
+    <button class="btn-novo-produto" (click)="novoProduto()">
+      + Novo Produto
+    </button>
+
+  </div>
+
+
+  <section class="indicadores">
+
+    <div class="card-indicador">
+
+      <div>
+        <p>Produtos Ativos</p>
+        <h2>{{ produtosAtivos }}</h2>
+      </div>
+
+      <span class="icone">✓</span>
+
+    </div>
+
+
+    <div class="card-indicador">
+
+      <div>
+        <p>Estoque Baixo</p>
+        <h2>{{ estoqueBaixo }}</h2>
+      </div>
+
+      <span class="icone">!</span>
+
+    </div>
+
+    <div class="card-indicador">
+
+      <div>
+        <p>Esgotados</p>
+        <h2>{{ esgotados }}</h2>
+      </div>
+
+      <span class="icone"></span>
+
+    </div>
+
+    <div class="card-indicador">
+
+      <div>
+        <p>Valor em Estoque</p>
+
+        <h2>
+          R$ {{ valorEstoque | number:'1.2-2' }}
+        </h2>
+
+      </div>
+
+      <span class="icone">R$</span>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<section class="filtros">
+
+  <div class="campo-filtro">
+
+    <label for="busca">
+      Buscar
+    </label>
+
+    <input type="text" id="busca" placeholder="Nome ou fragrância" [(ngModel)]="busca">
+
+  </div>
+
+  <div class="campo-filtro">
+
+    <label for="categoria">
+      Categoria
+    </label>
+
+    <select id="categoria" [(ngModel)]="categoriaSelecionada">
+
+      <option value="">
+        Todas as categorias
+      </option>
+
+      <option value="perfume">
+        Perfume
+      </option>
+
+      <option value="colonia">
+        Colônia
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div class="campo-filtro">
+
+    <label for="status">
+      Status
+    </label>
+
+    <select id="status" [(ngModel)]="statusSelecionado">
+
+      <option value="">
+        Todos os status
+      </option>
+
+      <option value="ativo">
+        Ativo
+      </option>
+
+      <option value="estoque-baixo">
+        Estoque baixo
+      </option>
+
+      <option value="esgotado">
+        Esgotado
+      </option>
+
+    </select>
+
+  </div>
+
+  <button class="btn-filtrar" (click)="filtrarProdutos()">
+
+    Filtrar
+
+  </button>
+
+</section>
+
+
+<section class="tabela-produtos">
+
+  <div class="cabecalho-tabela">
+    <h2>Produtos</h2>
+  </div>
+
+
+  <table>
+
+    <thead>
+
+      <tr>
+
+        <th>Produto</th>
+
+        <th>Categoria</th>
+
+        <th>Preço</th>
+
+        <th>Estoque</th>
+
+        <th>Status</th>
+
+        <th>Ações</th>
+
+      </tr>
+
+    </thead>
+
+
+    <tbody>
+
+   
+      <tr *ngFor="let produto of produtosFiltrados">
+
+        <td>
+          {{ produto.nome }}
+        </td>
+
+        <td>
+          {{ produto.categoria }}
+        </td>
+
+        <td>
+          R$ {{ produto.preco | number:'1.2-2' }}
+        </td>
+
+        <td>
+          {{ produto.estoque }}
+        </td>
+
+        <td>
+          {{ produto.status }}
+        </td>
+
+        <td>
+
+          <button class="btn-alterar" (click)="alterarProduto(produto)">
+
+            Alterar
+
+          </button>
+
+          <button class="btn-excluir" (click)="excluirProduto(produto.id)">
+
+            Excluir
+
+          </button>
+
+        </td>
+
+      </tr>
+
+
+      <tr *ngIf="produtosFiltrados.length === 0">
+
+        <td colspan="6">
+
+          Nenhum produto encontrado.
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</section>
+
+
+<section class="alteracao-produto" *ngIf="produtoSelecionado">
+
+
+  <!-- CABEÇALHO -->
+  <div class="cabecalho-alteracao">
+
+    <div>
+
+      <h2>
+        Alterar Produto
+      </h2>
+
+      <p>
+        Edite as informações do produto selecionado
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="formulario-produto">
+
+
+    <div class="campo-produto">
+
+      <label for="nome-produto">
+        Nome do produto
+      </label>
+
+      <input type="text" id="nome-produto" [(ngModel)]="produtoSelecionado.nome">
+
+    </div>
+
+    <div class="campo-produto">
+
+      <label for="categoria">
+        Categoria
+      </label>
+
+      <input type="text" id="categoria" [(ngModel)]="produtoSelecionado.categoria">
+
+    </div>
+
+
+    <div class="campo-produto">
+
+      <label for="volume">
+        Volume
+      </label>
+
+      <input type="text" id="volume" [(ngModel)]="produtoSelecionado.volume">
+
+    </div>
+
+
+    <div class="campo-produto">
+
+      <label for="estoque">
+        Estoque
+      </label>
+
+      <input type="number" id="estoque" [(ngModel)]="produtoSelecionado.estoque">
+
+    </div>
+
+
+    <div class="campo-produto">
+
+      <label for="preco">
+        Preço
+      </label>
+
+      <input type="number" id="preco" [(ngModel)]="produtoSelecionado.preco">
+
+    </div>
+
+
+  </div>
+
+  <div class="acoes-produto">
+
+    <button class="btn-salvar" (click)="salvarAlteracao()">
+
+      Salvar alterações
+
+    </button>
+
+
+    <button class="btn-excluir-produto" (click)="excluirProduto(produtoSelecionado.id)">
+
+      Excluir
+
+    </button>
+
+  </div>
+
+</section>
