@@ -1,0 +1,32 @@
+{
+  "produtos": [
+    {
+      "id": "1",
+      "nome": "La Vie Est Belle",
+      "categoria": "Feminino",
+      "preco": 499.9,
+      "estoque": 12,
+      "status": "ativo",
+      "volume": "100 ml"
+    },
+    {
+      "id": "2",
+      "nome": "Good Girl",
+      "categoria": "Feminino",
+      "preco": 589.9,
+      "estoque": 8,
+      "status": "estoque-baixo",
+      "volume": "80 ml"
+    },
+    {
+      "id": "3",
+      "nome": "Sauvage",
+      "categoria": "Masculino",
+      "preco": 629.9,
+      "estoque": 10,
+      "status": "estoque-baixo",
+      "volume": "100 ml"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
