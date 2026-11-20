@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { Menu } from './menu/menu';
 import { Body } from './body/body';
 import { Footer } from './footer/footer';

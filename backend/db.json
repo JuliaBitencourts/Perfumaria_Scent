@@ -1,0 +1,130 @@
+{
+  "produtos": [
+    
+
+    {
+      "id": "1",
+      "nome": "La Vie Est Belle",
+      "categoria": "Feminino",
+      "preco": 499.9,
+      "estoque": 12,
+      "status": "ativo",
+      "volume": "100 ml"
+    },
+    {
+      "id": "2",
+      "nome": "Good Girl",
+      "categoria": "Feminino",
+      "preco": 589.9,
+      "estoque": 8,
+      "status": "estoque-baixo",
+      "volume": "80 ml"
+    },
+    {
+      "id": "3",
+      "nome": "Sauvage",
+      "categoria": "Masculino",
+      "preco": 629.9,
+      "estoque": 10,
+      "status": "estoque-baixo",
+      "volume": "100 ml"
+    },
+    {
+      "id": "4",
+      "nome": "Âmbar Noturno",
+      "categoria": "Unissex",
+      "familia": "ORIENTAL AMADEIRADO",
+      "preco": 689,
+      "volume": "75 ml",
+      "estoque": 15,
+      "status": "ativo",
+      "imagem": "imagens/ambarnoturno.png",
+      "secao": "lancamentos"
+    },
+    {
+      "id": "5",
+      "nome": "Íris de Seda",
+      "categoria": "Feminino",
+      "familia": "FLORAL ALMISCARADO",
+      "preco": 579,
+      "volume": "50 ml",
+      "estoque": 20,
+      "status": "ativo",
+      "imagem": "/imagens/irisSeda.png",
+      "secao": "lancamentos"
+    },
+    {
+      "id": "6",
+      "nome": "Cedro 08",
+      "categoria": "Masculino",
+      "familia": "AMADEIRADO FRESCO",
+      "preco": 629,
+      "volume": "75 ml",
+      "estoque": 18,
+      "status": "ativo",
+      "imagem": "/imagens/cedro08.png",
+      "secao": "lancamentos"
+    },
+    {
+      "id": "7",
+      "nome": "Figo Solar",
+      "categoria": "Unissex",
+      "familia": "VERDE FRUTADO",
+      "preco": 549,
+      "volume": "50 ml",
+      "estoque": 14,
+      "status": "ativo",
+      "imagem": "/imagens/figosolar.png",
+      "secao": "lancamentos"
+    },
+    {
+      "id": "8",
+      "nome": "Folha de Louro",
+      "categoria": "Unissex",
+      "familia": "VERDE FRUTADO",
+      "preco": 549,
+      "volume": "50 ml",
+      "estoque": 16,
+      "status": "ativo",
+      "imagem": "/imagens/folhadeLouro.png",
+      "secao": "perfumes"
+    },
+    {
+      "id": "9",
+      "nome": "Bergamota Pera",
+      "categoria": "Unissex",
+      "familia": "CÍTRICO",
+      "preco": 629,
+      "volume": "75 ml",
+      "estoque": 11,
+      "status": "ativo",
+      "imagem": "/imagens/bergamotaPera.png",
+      "secao": "perfumes"
+    },
+    {
+      "id": "10",
+      "nome": "Jardim de Seda",
+      "categoria": "Feminino",
+      "familia": "FLORAL ALMISCARADO",
+      "preco": 579,
+      "volume": "50 ml",
+      "estoque": 9,
+      "status": "estoque-baixo",
+      "imagem": "/imagens/JardimSeda.png",
+      "secao": "perfumes"
+    },
+    {
+      "id": "11",
+      "nome": "Baunilha Cipreste",
+      "categoria": "Unissex",
+      "familia": "ORIENTAL AMADEIRADO",
+      "preco": 689,
+      "volume": "75 ml",
+      "estoque": 13,
+      "status": "ativo",
+      "imagem": "/imagens/BaunilaCipreste.png",
+      "secao": "perfumes"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
