@@ -145,7 +145,38 @@
       "total": 1292.9,
       "data": "2026-11-21T01:45:54.568Z",
       "id": "0k7Ytct7dTs"
+    },
+    {
+      "itens": [
+        {
+          "produtoId": "4",
+          "nome": "Âmbar Noturno",
+          "preco": 689,
+          "quantidade": 1
+        }
+      ],
+      "subtotal": 689,
+      "frete": 24.9,
+      "total": 713.9,
+      "data": "2026-11-21T02:32:54.229Z",
+      "id": "yo4wLNo4v34"
+    },
+    {
+      "itens": [
+        {
+          "produtoId": "4",
+          "nome": "Âmbar Noturno",
+          "preco": 689,
+          "quantidade": 1
+        }
+      ],
+      "subtotal": 689,
+      "frete": 24.9,
+      "total": 713.9,
+      "data": "2026-11-21T02:33:10.743Z",
+      "id": "YeZQ93qQXKg"
     }
   ],
+  "carrinho": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

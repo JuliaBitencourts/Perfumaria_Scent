@@ -1,34 +1,55 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { PedidoService } from '../../service/pedido.service';
+import { CarrinhoService, ItemCarrinho } from '../../service/carrinho.service';
 import { Pedido } from '../../modelo/pedido';
 
 import { Menu } from '../menu/menu';
 
 @Component({
   selector: 'app-carrinho',
-  imports: [RouterLink, Menu],
+  imports: [Menu],
   templateUrl: './carrinho.html',
   styleUrl: './carrinho.css',
 })
-export class Carrinho {
-  produtos = [
-    { id: 1, nome: 'Âmbar Noturno', descricao: 'Eau de Parfum · 75 ml', preco: 689, quantidade: 1, imagem: '/ambar-noturno.webp' },
-    { id: 2, nome: 'Íris de Seda', descricao: 'Eau de Parfum · 50 ml', preco: 579, quantidade: 1, imagem: '/Produto.png' },
-  ];
+export class Carrinho implements OnInit {
+  private carrinhoService = inject(CarrinhoService);
+  private pedidoService = inject(PedidoService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
-  excluir(id: number) {
-    this.produtos = this.produtos.filter(p => p.id !== id);
+  produtos: ItemCarrinho[] = [];
+
+  // Ao abrir a página, busca os itens na API (GET)
+  ngOnInit() {
+    this.carrinhoService.listar().subscribe({
+      next: (itens) => {
+        this.produtos = itens;
+        this.cdr.markForCheck();   // avisa o Angular para redesenhar a tela
+      },
+      error: () => alert('Erro ao carregar o carrinho.'),
+    });
   }
 
-  aumentar(id: number) {
-    const produto = this.produtos.find(p => p.id === id);
-    if (produto) produto.quantidade++;
+  aumentar(item: ItemCarrinho) {
+    if (item.quantidade >= item.estoque) return;
+    item.quantidade++;
+    this.carrinhoService.alterar(item).subscribe();   // PUT
   }
 
-  diminuir(id: number) {
-    const produto = this.produtos.find(p => p.id === id);
-    if (produto && produto.quantidade > 1) produto.quantidade--;
+  diminuir(item: ItemCarrinho) {
+    if (item.quantidade <= 1) return;
+    item.quantidade--;
+    this.carrinhoService.alterar(item).subscribe();   // PUT
+  }
+
+  excluir(item: ItemCarrinho) {
+    this.carrinhoService.excluir(item.id!).subscribe({   // DELETE
+      next: () => {
+        this.produtos = this.produtos.filter(p => p.id !== item.id);
+        this.cdr.markForCheck();
+      },
+    });
   }
 
   get subtotal(): number {
@@ -51,9 +72,6 @@ export class Carrinho {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  private pedidoService = inject(PedidoService);
-  private router = inject(Router);
-
   finalizarCompra() {
     if (this.produtos.length === 0) {
       alert('Seu carrinho está vazio.');
@@ -62,7 +80,7 @@ export class Carrinho {
 
     const pedido: Pedido = {
       itens: this.produtos.map(p => ({
-        produtoId: String(p.id),
+        produtoId: p.produtoId,
         nome: p.nome,
         preco: p.preco,
         quantidade: p.quantidade,
@@ -75,8 +93,10 @@ export class Carrinho {
 
     this.pedidoService.incluir(pedido).subscribe({
       next: (salvo) => {
-        alert(`Pedido ${salvo.id} finalizado com sucesso!`);
+        // Pedido salvo: esvazia o carrinho na API (DELETE de cada item)
+        this.produtos.forEach(p => this.carrinhoService.excluir(p.id!).subscribe());
         this.produtos = [];
+        alert(`Pedido ${salvo.id} finalizado com sucesso!`);
         this.router.navigate(['/']);
       },
       error: () => alert('Erro ao finalizar o pedido.'),

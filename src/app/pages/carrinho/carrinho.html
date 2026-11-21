@@ -7,42 +7,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 
-<div class="produto-barra">
-
-    <div class="produto-info-inferior">
-
-        <div class="produto-imagem">
-            <img src="/creme-corporal-ambar.jpg" alt="Creme Corporal Âmbar">
-        </div>
-
-        <div class="produto-texto">
-
-            <span class="produto-categoria">
-                COMPLETE O RITUAL
-            </span>
-
-            <h3>
-                Creme Corporal Âmbar
-            </h3>
-
-            <p>
-                Prolonga a presença de Âmbar Noturno com hidratação acetinada e perfume delicado.
-            </p>
-
-            <span class="produto-preco">
-                R$ 219,00
-            </span>
-
-        </div>
-
-    </div>
-
-    <button class="btn-carrinho">
-        ADICIONAR AO CARRINHO
-    </button>
-
-</div>
-
 <div class="resumo-pedido">
 
   <h2>Resumo do pedido</h2>
@@ -132,14 +96,14 @@
       </div>
 
       <div class="quantidade">
-        <button class="btn-quantidade-menos" (click)="diminuir(p.id)">-</button>
+        <button class="btn-quantidade-menos" (click)="diminuir(p)">-</button>
         <span>{{ p.quantidade }}</span>
-        <button class="btn-quantidade-mais" (click)="aumentar(p.id)">+</button>
+        <button class="btn-quantidade-mais" (click)="aumentar(p)">+</button>
       </div>
 
       <div class="preco">
         <strong>{{ formatar(p.preco) }}</strong>
-        <span (click)="excluir(p.id)">Excluir</span>
+        <span (click)="excluir(p)">Excluir</span>
       </div>
 
     </div>
