@@ -1,7 +1,5 @@
 {
   "produtos": [
-    
-
     {
       "id": "1",
       "nome": "La Vie Est Belle",
@@ -124,6 +122,29 @@
       "status": "ativo",
       "imagem": "/imagens/BaunilaCipreste.png",
       "secao": "perfumes"
+    }
+  ],
+  "pedidos": [
+    {
+      "itens": [
+        {
+          "produtoId": "1",
+          "nome": "Âmbar Noturno",
+          "preco": 689,
+          "quantidade": 1
+        },
+        {
+          "produtoId": "2",
+          "nome": "Íris de Seda",
+          "preco": 579,
+          "quantidade": 1
+        }
+      ],
+      "subtotal": 1268,
+      "frete": 24.9,
+      "total": 1292.9,
+      "data": "2026-11-21T01:45:54.568Z",
+      "id": "0k7Ytct7dTs"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

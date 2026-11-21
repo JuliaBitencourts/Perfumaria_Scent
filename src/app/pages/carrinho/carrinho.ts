@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
+import { PedidoService } from '../../service/pedido.service';
+import { Pedido } from '../../modelo/pedido';
 
 import { Menu } from '../menu/menu';
 
@@ -47,5 +49,37 @@ export class Carrinho {
 
   formatar(valor: number): string {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  private pedidoService = inject(PedidoService);
+  private router = inject(Router);
+
+  finalizarCompra() {
+    if (this.produtos.length === 0) {
+      alert('Seu carrinho está vazio.');
+      return;
+    }
+
+    const pedido: Pedido = {
+      itens: this.produtos.map(p => ({
+        produtoId: String(p.id),
+        nome: p.nome,
+        preco: p.preco,
+        quantidade: p.quantidade,
+      })),
+      subtotal: this.subtotal,
+      frete: this.frete,
+      total: this.total,
+      data: new Date().toISOString(),
+    };
+
+    this.pedidoService.incluir(pedido).subscribe({
+      next: (salvo) => {
+        alert(`Pedido ${salvo.id} finalizado com sucesso!`);
+        this.produtos = [];
+        this.router.navigate(['/']);
+      },
+      error: () => alert('Erro ao finalizar o pedido.'),
+    });
   }
 }
