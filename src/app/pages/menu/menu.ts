@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
@@ -27,7 +28,10 @@ export class Menu {
 
     this.router.navigate(['/']).then(() => {
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.getElementById(id)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       }, 100);
     });
   }
