@@ -1,16 +1,10 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-interface Produto {
-  id: number;
-  nome: string;
-  categoria: string;
-  preco: number;
-  estoque: number;
-  status: string;
-  volume: string;
-}
+import { Produto } from '../../models/produtos';
+import { ProdutoService } from '../../services/produtos.service';
 
 @Component({
   selector: 'app-crud',
@@ -19,46 +13,11 @@ interface Produto {
   templateUrl: './crud.html',
   styleUrl: './crud.css'
 })
+export class Crud implements OnInit {
 
-export class Crud {
+  nomeAdministrador: string = '';
 
-   nomeAdministrador: string = '';
-
-  produtos: Produto[] = [
-
-    {
-      id: 1,
-      nome: 'Fragrância Saint',
-      categoria: 'perfume',
-      preco: 199.90,
-      estoque: 25,
-      status: 'ativo',
-      volume: '100 ml'
-    },
-
-    {
-      id: 2,
-      nome: 'Essência Floral',
-      categoria: 'colonia',
-      preco: 149.90,
-      estoque: 8,
-      status: 'estoque-baixo',
-      volume: '100 ml'
-    },
-
-    {
-      id: 3,
-      nome: 'Íris de Seda',
-      categoria: 'perfume',
-      preco: 579.00,
-      estoque: 0,
-      status: 'esgotado',
-      volume: '100 ml'
-    }
-
-  ];
-
-
+  produtos: Produto[] = [];
   produtosFiltrados: Produto[] = [];
 
   busca: string = '';
@@ -67,14 +26,28 @@ export class Crud {
 
   produtoSelecionado: Produto | null = null;
 
+  produtoNovo: boolean = false;
 
-  constructor() {
-    this.produtosFiltrados = [...this.produtos];
+  constructor(private produtoService: ProdutoService) {}
+
+  ngOnInit(): void {
+    this.carregarProdutos();
   }
 
+  carregarProdutos(): void {
+    this.produtoService.listar().subscribe({
+      next: (dados) => {
+        this.produtos = dados;
+        this.filtrarProdutos();
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar produtos:', erro);
+        alert('Não foi possível carregar os produtos. Verifique se a API está ligada.');
+      }
+    });
+  }
 
   definirStatus(estoque: number): string {
-
     if (estoque === 0) {
       return 'esgotado';
     }
@@ -86,15 +59,11 @@ export class Crud {
     return 'ativo';
   }
 
-
   filtrarProdutos(): void {
-
     this.produtosFiltrados = this.produtos.filter(produto => {
 
       const correspondeBusca =
-        produto.nome
-          .toLowerCase()
-          .includes(this.busca.toLowerCase());
+        produto.nome.toLowerCase().includes(this.busca.toLowerCase());
 
       const correspondeCategoria =
         !this.categoriaSelecionada ||
@@ -104,23 +73,15 @@ export class Crud {
         !this.statusSelecionado ||
         produto.status === this.statusSelecionado;
 
-      return (
-        correspondeBusca &&
-        correspondeCategoria &&
-        correspondeStatus
-      );
-
+      return correspondeBusca &&
+             correspondeCategoria &&
+             correspondeStatus;
     });
-
   }
 
-
   alterarProduto(produto: Produto): void {
-
-    this.produtoSelecionado = {
-      ...produto
-    };
-
+    this.produtoSelecionado = { ...produto };
+    this.produtoNovo = false;
   }
 
   salvarAlteracao(): void {
@@ -129,142 +90,118 @@ export class Crud {
       return;
     }
 
-    this.produtoSelecionado.status =
-      this.definirStatus(
-        this.produtoSelecionado.estoque
-      );
-
-
-    const index = this.produtos.findIndex(
-      produto =>
-        produto.id === this.produtoSelecionado!.id
-    );
-
-
-    if (index !== -1) {
-
-      this.produtos[index] = {
-        ...this.produtoSelecionado
-      };
-
-      this.filtrarProdutos();
-
-      alert('Produto alterado com sucesso!');
-
-    }
-
-  }
-
-  excluirProduto(id: number): void {
-
-    const confirmar = confirm(
-      'Deseja realmente excluir este produto?'
-    );
-
-
-    if (!confirmar) {
+    if (!this.produtoSelecionado.nome.trim()) {
+      alert('Informe o nome do produto.');
       return;
     }
 
+    this.produtoSelecionado.status =
+      this.definirStatus(this.produtoSelecionado.estoque);
 
-    this.produtos = this.produtos.filter(
-      produto => produto.id !== id
-    );
+    if (this.produtoNovo) {
 
-    if (this.produtoSelecionado?.id === id) {
-      this.produtoSelecionado = null;
+      const novoProduto = { ...this.produtoSelecionado };
+      delete novoProduto.id;
+
+      this.produtoService.cadastrar(novoProduto).subscribe({
+        next: () => {
+          alert('Produto cadastrado com sucesso!');
+          this.produtoSelecionado = null;
+          this.produtoNovo = false;
+          this.carregarProdutos();
+        },
+        error: (erro) => {
+          console.error(erro);
+          alert('Erro ao cadastrar produto.');
+        }
+      });
+
+    } else {
+
+      if (this.produtoSelecionado.id === undefined) {
+        return;
+      }
+
+      this.produtoService.atualizar(this.produtoSelecionado.id, this.produtoSelecionado).subscribe({
+        next: () => {
+          alert('Produto alterado com sucesso!');
+          this.produtoSelecionado = null;
+          this.carregarProdutos();
+        },
+        error: (erro) => {
+          console.error(erro);
+          alert('Erro ao alterar produto.');
+        }
+      });
     }
-
-
-    this.filtrarProdutos();
-
   }
+
+  excluirProduto(id: number | string | undefined): void {
+  if (id === undefined) {
+    alert('ID do produto não encontrado.');
+    return;
+  }
+
+  const idNumerico = Number(id);
+
+  const confirmar = confirm('Deseja realmente excluir este produto?');
+
+  if (!confirmar) return;
+
+  this.produtoService.excluir(id).subscribe({
+    next: () => {
+      if (this.produtoSelecionado?.id == id) {
+        this.produtoSelecionado = null;
+      }
+
+      this.carregarProdutos();
+      alert('Produto excluído com sucesso!');
+    },
+    error: (erro) => {
+      console.error('Erro ao excluir produto:', erro);
+      alert('Erro ao excluir produto.');
+    }
+  });
+}
 
   novoProduto(): void {
 
     const novo: Produto = {
-
-      id: this.gerarNovoId(),
-
-      nome: 'Novo Produto',
-
+      nome: '',
       categoria: 'perfume',
-
       preco: 0,
-
       estoque: 0,
-
       status: 'esgotado',
-
       volume: ''
-
     };
 
-
-    this.produtos.push(novo);
-
-
-    this.produtoSelecionado = {
-      ...novo
-    };
-
-
-    this.filtrarProdutos();
-
+    this.produtoSelecionado = novo;
+    this.produtoNovo = true;
   }
-
-
-  gerarNovoId(): number {
-
-    if (this.produtos.length === 0) {
-      return 1;
-    }
-
-
-    return Math.max(
-      ...this.produtos.map(
-        produto => produto.id
-      )
-    ) + 1;
-
-  }
-
 
   get produtosAtivos(): number {
-
     return this.produtos.filter(
       produto => produto.status === 'ativo'
     ).length;
-
   }
 
-
   get estoqueBaixo(): number {
-
     return this.produtos.filter(
       produto => produto.status === 'estoque-baixo'
     ).length;
-
   }
 
-
   get esgotados(): number {
-
     return this.produtos.filter(
       produto => produto.status === 'esgotado'
     ).length;
-
   }
 
-
   get valorEstoque(): number {
-
     return this.produtos.reduce(
       (total, produto) =>
         total + (produto.preco * produto.estoque),
       0
     );
-
   }
-
 }
