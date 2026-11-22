@@ -1,73 +1,78 @@
 
 <app-menu></app-menu>
+
 <main class="pagina">
-  <p class="etiqueta">MINHA CONTA</p>
+
   <h1>Meu cadastro</h1>
-  <p class="subtitulo">Atualize seus dados pessoais.</p>
+
+  <p>Atualize seus dados pessoais.</p>
 
   @if (mensagem) {
     <p class="mensagem">{{ mensagem }}</p>
   }
 
   <section class="cartao">
-    <p class="etiqueta">DADOS PESSOAIS</p>
+
     <h2>Informações do cliente</h2>
 
     <form (ngSubmit)="salvar()">
-      <label>Nome completo
-        <input type="text" name="nome" [(ngModel)]="cliente.nome" />
-      </label>
 
-      <label>E-mail
-        <input type="email" name="email" [(ngModel)]="cliente.email" />
-      </label>
+      <label>Nome completo</label>
+      <input type="text" name="nome" [(ngModel)]="cliente.nome">
 
-      <label>CPF
-        <input type="text" name="cpf" [(ngModel)]="cliente.cpf" />
-      </label>
+      <label>E-mail</label>
+      <input type="email" name="email" [(ngModel)]="cliente.email">
 
-      <label>Telefone
-        <input type="text" name="telefone" [(ngModel)]="cliente.telefone" />
-      </label>
+      <label>CPF</label>
+      <input type="text" name="cpf" [(ngModel)]="cliente.cpf" maxlength="11">
 
-      <label class="inteiro">Endereço
-        <input type="text" name="endereco" [(ngModel)]="cliente.endereco" />
-      </label>
+      <label>Telefone</label>
+      <input type="text" name="telefone" [(ngModel)]="cliente.telefone" maxlength="11">
 
-      <label>Cidade
-        <input type="text" name="cidade" [(ngModel)]="cliente.cidade" />
-      </label>
+      <label>Endereço</label>
+      <input type="text" name="endereco" [(ngModel)]="cliente.endereco">
 
-      <label>UF
-        <input type="text" name="uf" maxlength="2" [(ngModel)]="cliente.uf" />
-      </label>
+      <label>Senha</label>
+      <input type="text" name="senha" [(ngModel)]="cliente.senha">
 
-      <label class="inteiro opcao">
-        <input type="checkbox" name="novidades" [(ngModel)]="cliente.novidades" />
-        Aceita receber novidades por e-mail
-      </label>
+      <div class="botoes">
 
-      <div class="botoes inteiro">
         <button type="submit" class="principal">
           {{ editando ? 'Salvar alterações' : 'Cadastrar' }}
         </button>
-        <button type="button" class="secundario" (click)="cancelar()">Cancelar</button>
+
+        <button type="button" class="secundario" (click)="cancelar()">
+          Cancelar
+        </button>
+
       </div>
 
-      <p class="nota inteiro">Seus dados serão atualizados após salvar.</p>
     </form>
+
   </section>
 
   <section class="cartao">
-    <p class="etiqueta">CONSULTA</p>
+
     <h2>Clientes cadastrados</h2>
 
-    <input class="busca" type="search" name="busca" placeholder="Buscar por nome, e-mail ou CPF" [(ngModel)]="busca" />
+    <p>Pesquise por nome, e-mail ou CPF.</p>
+
+    <input
+      class="busca"
+      type="search"
+      name="busca"
+      placeholder="Pesquisar cliente"
+      [(ngModel)]="busca"
+    >
 
     @if (filtrar().length === 0) {
-      <p class="nota">Nenhum cliente encontrado.</p>
+
+      <p>Nenhum cliente encontrado.</p>
+
     } @else {
+
       <table>
+
         <thead>
           <tr>
             <th>Nome</th>
@@ -77,21 +82,36 @@
             <th>Ações</th>
           </tr>
         </thead>
+
         <tbody>
+
           @for (c of filtrar(); track c.id) {
+
             <tr>
               <td>{{ c.nome }}</td>
               <td>{{ c.cpf }}</td>
               <td>{{ c.email }}</td>
               <td>{{ c.telefone }}</td>
+
               <td>
-                <button type="button" class="link" (click)="editar(c)">Alterar</button>
-                <button type="button" class="link excluir" (click)="excluir(c)">Excluir</button>
+                <button type="button" class="link" (click)="editar(c)">
+                  Alterar
+                </button>
+
+                <button type="button" class="link excluir" (click)="excluir(c)">
+                  Excluir
+                </button>
               </td>
             </tr>
+
           }
+
         </tbody>
+
       </table>
+
     }
+
   </section>
+
 </main>

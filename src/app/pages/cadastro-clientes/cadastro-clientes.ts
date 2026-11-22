@@ -1,19 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Menu } from '../menu/menu';
-
-interface Cliente {
-  id: number;
-  nome: string;
-  email: string;
-  cpf: string;
-  telefone: string;
-  endereco: string;
-  cidade: string;
-  uf: string;
-  novidades: boolean;
-}
+import { Cliente } from '../../modelo/cliente';
+import { ClienteService } from '../../service/cliente.service';
 
 @Component({
   selector: 'app-cadastro-clientes',
@@ -21,38 +11,35 @@ interface Cliente {
   templateUrl: './cadastro-clientes.html',
   styleUrl: './cadastro-clientes.css',
 })
-export class CadastroClientes {
+export class CadastroClientes implements OnInit {
+
   clientes: Cliente[] = [];
   cliente: Cliente = this.clienteVazio();
   editando = false;
   busca = '';
   mensagem = '';
 
-  constructor() {
-    if (typeof localStorage !== 'undefined') {
-      const salvo = localStorage.getItem('clientes');
-      if (salvo) {
-        this.clientes = JSON.parse(salvo);
-      }
-    }
+  constructor(private service: ClienteService) { }
+
+  ngOnInit(): void {
+    this.listar();
   }
 
   clienteVazio(): Cliente {
     return {
-      id: 0,
       nome: '',
       email: '',
       cpf: '',
       telefone: '',
       endereco: '',
-      cidade: '',
-      uf: '',
-      novidades: false,
+      senha: '',
     };
   }
 
-  gravar() {
-    localStorage.setItem('clientes', JSON.stringify(this.clientes));
+  listar() {
+    this.service.listar().subscribe(dados => {
+      this.clientes = dados;
+    });
   }
 
   salvar() {
@@ -63,18 +50,23 @@ export class CadastroClientes {
       return;
     }
 
-    if (this.editando) {
-      const posicao = this.clientes.findIndex((x) => x.id === c.id);
-      this.clientes[posicao] = { ...c };
-      this.mensagem = 'Cadastro alterado com sucesso.';
-    } else {
-      c.id = Date.now();
-      this.clientes.push({ ...c });
-      this.mensagem = 'Cliente cadastrado com sucesso.';
-    }
+    if (this.editando && c.id) {
 
-    this.gravar();
-    this.cancelar();
+      this.service.editar(c).subscribe(() => {
+        this.mensagem = 'Cadastro alterado com sucesso.';
+        this.listar();
+        this.cancelar();
+      });
+
+    } else {
+
+      this.service.cadastrar(c).subscribe(() => {
+        this.mensagem = 'Cliente cadastrado com sucesso.';
+        this.listar();
+        this.cancelar();
+      });
+
+    }
   }
 
   editar(c: Cliente) {
@@ -84,10 +76,13 @@ export class CadastroClientes {
   }
 
   excluir(c: Cliente) {
-    if (confirm('Deseja excluir o cadastro de ' + c.nome + '?')) {
-      this.clientes = this.clientes.filter((x) => x.id !== c.id);
-      this.gravar();
-      this.mensagem = 'Cadastro excluído.';
+    if (c.id && confirm('Deseja excluir o cadastro de ' + c.nome + '?')) {
+
+      this.service.excluir(c.id).subscribe(() => {
+        this.mensagem = 'Cadastro excluído.';
+        this.listar();
+      });
+
     }
   }
 
@@ -98,11 +93,11 @@ export class CadastroClientes {
 
   filtrar() {
     const texto = this.busca.toLowerCase();
-    return this.clientes.filter(
-      (c) =>
-        c.nome.toLowerCase().includes(texto) ||
-        c.email.toLowerCase().includes(texto) ||
-        c.cpf.includes(texto),
+
+    return this.clientes.filter(c =>
+      c.nome.toLowerCase().includes(texto) ||
+      c.email.toLowerCase().includes(texto) ||
+      c.cpf.includes(texto)
     );
   }
 }
