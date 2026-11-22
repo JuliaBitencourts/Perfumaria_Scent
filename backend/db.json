@@ -178,6 +178,16 @@
     }
   ],
   "carrinho": [],
-  "clientes": [],
+    "clientes": [
+    {
+      "id": "1",
+      "nome": "Administrador",
+      "email": "admin@scent.com",
+      "cpf": "12345678910",
+      "telefone": "900002222",
+      "endereco": "Endereco administrativo",
+      "senha": "1234"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
