@@ -256,18 +256,6 @@ body {
   margin-bottom: 30px;
 }
 
-.manifesto-botao {
-  display: inline-block;
-  background-color: #ffffff;
-  color: #1a1817;
-  padding: 12px 28px;
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-decoration: none;
-  border-radius: 50px;
-  transition: background-color 0.2s ease;
-}
 
 .manifesto-botao:hover {
   background-color: #e2dfd8;

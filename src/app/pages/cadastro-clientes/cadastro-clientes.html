@@ -1,1 +1,117 @@
-<p>cadastro-clientes works!</p>
+
+<app-menu></app-menu>
+
+<main class="pagina">
+
+  <h1>Meu cadastro</h1>
+
+  <p>Atualize seus dados pessoais.</p>
+
+  @if (mensagem) {
+    <p class="mensagem">{{ mensagem }}</p>
+  }
+
+  <section class="cartao">
+
+    <h2>Informações do cliente</h2>
+
+    <form (ngSubmit)="salvar()">
+
+      <label>Nome completo</label>
+      <input type="text" name="nome" [(ngModel)]="cliente.nome">
+
+      <label>E-mail</label>
+      <input type="email" name="email" [(ngModel)]="cliente.email">
+
+      <label>CPF</label>
+      <input type="text" name="cpf" [(ngModel)]="cliente.cpf" maxlength="11">
+
+      <label>Telefone</label>
+      <input type="text" name="telefone" [(ngModel)]="cliente.telefone" maxlength="11">
+
+      <label>Endereço</label>
+      <input type="text" name="endereco" [(ngModel)]="cliente.endereco">
+
+      <label>Senha</label>
+      <input type="text" name="senha" [(ngModel)]="cliente.senha">
+
+      <div class="botoes">
+
+        <button type="submit" class="principal">
+          {{ editando ? 'Salvar alterações' : 'Cadastrar' }}
+        </button>
+
+        <button type="button" class="secundario" (click)="cancelar()">
+          Cancelar
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  <section class="cartao">
+
+    <h2>Clientes cadastrados</h2>
+
+    <p>Pesquise por nome, e-mail ou CPF.</p>
+
+    <input
+      class="busca"
+      type="search"
+      name="busca"
+      placeholder="Pesquisar cliente"
+      [(ngModel)]="busca"
+    >
+
+    @if (filtrar().length === 0) {
+
+      <p>Nenhum cliente encontrado.</p>
+
+    } @else {
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (c of filtrar(); track c.id) {
+
+            <tr>
+              <td>{{ c.nome }}</td>
+              <td>{{ c.cpf }}</td>
+              <td>{{ c.email }}</td>
+              <td>{{ c.telefone }}</td>
+
+              <td>
+                <button type="button" class="link" (click)="editar(c)">
+                  Alterar
+                </button>
+
+                <button type="button" class="link excluir" (click)="excluir(c)">
+                  Excluir
+                </button>
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </section>
+
+</main>

@@ -1,19 +1,16 @@
-<main>
-    <router-outlet></router-outlet>
-</main>
 <section class="hero-section">
     <div class="hero-container">
-       
+
         <div class="hero-conteudo">
             <span class="hero-subtitulo">COLEÇÃO Nº 04 · OUTONO 2026</span>
             <h1 class="hero-titulo">A memória vive<br>na pele.</h1>
             <p class="hero-descricao">
                 Perfumes de autor compostos para revelar, camada a camada, o que existe de mais íntimo em você.
             </p>
-            <button type="button" class="manifesto-botao">CONHEÇA A SCENT</button>
+
         </div>
 
-     
+
         <div class="hero-imagem-box">
             <img src="/imagens/fotoprincipal.png">
         </div>
@@ -29,56 +26,20 @@
         </div>
 
         <div class="produtos-grid">
-          
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/ambarnoturno.png" alt="imagem do produto">
-                </div>
+            @for (p of lancamentos; track p.id) {
+                <div class="produto-card">
+                    <div class="produto-imagem-box">
+                        <img [src]="p.imagem" [alt]="p.nome">
+                    </div>
 
-                <span class="produto-categoria">ORIENTAL AMADEIRADO</span>
-                <h3 class="produto-nome">Âmbar Noturno</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 689 · 75 ml</span>
-                    <button class="btn-adicionar">+</button>
+                    <span class="produto-categoria">{{ ( p.categoria) | uppercase }}</span>
+                    <h3 class="produto-nome">{{ p.nome }}</h3>
+                    <div class="produto-footer">
+                        <span class="produto-preco">{{ p.preco | currency:'BRL' }} · {{ p.volume }}</span>
+                        <button class="btn-adicionar" (click)="adicionar(p)" [disabled]="p.estoque === 0">+</button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/irisSeda.png">
-                </div>
-                <span class="produto-categoria">FLORAL ALMISCARADO</span>
-                <h3 class="produto-nome">Íris de Seda</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 579 · 50 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
-
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/cedro08.png">
-                </div>
-                <span class="produto-categoria">AMADEIRADO FRESCO</span>
-                <h3 class="produto-nome">Cedro 08</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 629 · 75 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
-
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/figosolar.png">
-
-                </div>
-                <span class="produto-categoria">VERDE FRUTADO</span>
-                <h3 class="produto-nome">Figo Solar</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 549 · 50 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
@@ -95,7 +56,6 @@
                 Ingredientes raros, tempo e precisão. Cada fragrância Scent nasce em pequenos lotes, sem excessos, para
                 permanecer além da estação.
             </p>
-            <a href="#" class="manifesto-botao">CONHEÇA A SCENT</a>
         </div>
     </div>
 </section>
@@ -108,55 +68,19 @@
         </div>
 
         <div class="produtos-grid">
-       
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/folhadeLouro.png">
-
+            @for (p of perfumes; track p.id) {
+                <div class="produto-card">
+                    <div class="produto-imagem-box">
+                        <img [src]="p.imagem" [alt]="p.nome">
+                    </div>
+                    <span class="produto-categoria">{{ ( p.categoria) | uppercase }}</span>
+                    <h3 class="produto-nome">{{ p.nome }}</h3>
+                    <div class="produto-footer">
+                        <span class="produto-preco">{{ p.preco | currency:'BRL' }} · {{ p.volume }}</span>
+                        <button class="btn-adicionar" (click)="adicionar(p)" [disabled]="p.estoque === 0">+</button>
+                    </div>
                 </div>
-                <span class="produto-categoria">VERDE FRUTADO</span>
-                <h3 class="produto-nome">Folha de Louro</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 549 · 50 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
-
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/bergamotaPera.png">
-                </div>
-                <span class="produto-categoria">CÍTRICO</span>
-                <h3 class="produto-nome">Bergamota Pera</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 629 · 75 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
-
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/JardimSeda.png">
-                </div>
-                <span class="produto-categoria">FLORAL ALMISCARADO</span>
-                <h3 class="produto-nome">Jardim de Seda</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 579 · 50 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
-
-            <div class="produto-card">
-                <div class="produto-imagem-box">
-                    <img src="/imagens/BaunilaCipreste.png">
-                </div>
-                <span class="produto-categoria">ORIENTAL AMADEIRADO</span>
-                <h3 class="produto-nome">Âmbar Noturno</h3>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 689 · 75 ml</span>
-                    <button class="btn-adicionar">+</button>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
