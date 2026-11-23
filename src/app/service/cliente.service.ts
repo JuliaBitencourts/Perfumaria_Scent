@@ -4,27 +4,36 @@ import { Observable } from 'rxjs';
 import { Cliente } from '../modelo/cliente';
 
 @Injectable({
- providedIn: 'root'
+  providedIn: 'root'
 })
 export class ClienteService {
 
- private API = 'http://localhost:3000/clientes';
+  private readonly API = 'http://localhost:3000/clientes';
 
- constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-listar(): Observable<Cliente[]> {
- return this.http.get<Cliente[]>(this.API);
- }
+  // GET: consulta
+  listar(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.API);
+  }
 
-cadastrar(cliente: Cliente): Observable<Cliente> {
-return this.http.post<Cliente>(this.API, cliente);
- }
+  // GET com filtro: busca só os clientes com esse e-mail (login e cadastro)
+  buscarPorEmail(email: string): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.API, { params: { email } });
+  }
 
-editar(cliente: Cliente): Observable<Cliente> {
- return this.http.put<Cliente>(this.API + '/' + cliente.id, cliente);
- }
- excluir(id: string): Observable<any> {
-  return this.http.delete(this.API + '/' + id);
-}
+  // POST: inclusão
+  cadastrar(cliente: Cliente): Observable<Cliente> {
+    return this.http.post<Cliente>(this.API, cliente);
+  }
 
+  // PUT: alteração
+  editar(cliente: Cliente): Observable<Cliente> {
+    return this.http.put<Cliente>(`${this.API}/${cliente.id}`, cliente);
+  }
+
+  // DELETE: exclusão
+  excluir(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.API}/${id}`);
+  }
 }

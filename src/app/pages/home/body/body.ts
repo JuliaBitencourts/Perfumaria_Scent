@@ -21,10 +21,15 @@ export class Body implements OnInit {
   constructor(private produtoService: ProdutoService) {}
 
   ngOnInit() {
-    this.produtoService.listar().subscribe(produtos => {
-      this.lancamentos = produtos.filter(p => p.secao === 'lancamentos');
-      this.perfumes = produtos.filter(p => p.secao === 'perfumes');
-      this.cdr.markForCheck();   // avisa o Angular para redesenhar a tela
+    this.produtoService.listar().subscribe({
+      next: (produtos) => {
+        // Caminho relativo (sem "/" no início) para funcionar no GitHub Pages
+        produtos.forEach(p => p.imagem = (p.imagem ?? '').replace(/^\//, ''));
+        this.lancamentos = produtos.filter(p => p.secao === 'lancamentos');
+        this.perfumes = produtos.filter(p => p.secao === 'perfumes');
+        this.cdr.markForCheck();   // avisa o Angular para redesenhar a tela
+      },
+      error: () => console.error('Não foi possível carregar os produtos. A API está rodando?'),
     });
   }
 
@@ -48,11 +53,11 @@ export class Body implements OnInit {
         } else {
           // 2b) Não está: inclui um item novo (POST)
           this.carrinhoService.incluir({
-            produtoId: produto.id,
+            produtoId: produto.id!,
             nome: produto.nome,
             descricao: `Eau de Parfum · ${produto.volume}`,
             preco: produto.preco,
-            imagem: produto.imagem.startsWith('/') ? produto.imagem : '/' + produto.imagem,
+            imagem: produto.imagem ?? '',
             estoque: produto.estoque,
             quantidade: 1,
           }).subscribe({

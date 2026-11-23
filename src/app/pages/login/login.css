@@ -12,9 +12,11 @@
   padding: 48px;
   color: #ffffff;
   background-color: #1a1410;
+  /* Caminho relativo à pasta src: o Angular copia a imagem no build e o
+     endereço funciona tanto em localhost quanto em /Perfumaria_Scent/ */
   background-image:
     linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.1) 50%),
-    url('/images/login-perfume.jpg');
+    url('../../../../public/images/login-perfume.jpg');
   background-size: cover;
   background-position: center;
 }

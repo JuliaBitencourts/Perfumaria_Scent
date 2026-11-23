@@ -48,7 +48,7 @@
       "volume": "50 ml",
       "estoque": 20,
       "status": "ativo",
-      "imagem": "/imagens/irisSeda.png",
+      "imagem": "imagens/irisSeda.png",
       "secao": "lancamentos"
     },
     {
@@ -60,7 +60,7 @@
       "volume": "75 ml",
       "estoque": 18,
       "status": "ativo",
-      "imagem": "/imagens/cedro08.png",
+      "imagem": "imagens/cedro08.png",
       "secao": "lancamentos"
     },
     {
@@ -72,7 +72,7 @@
       "volume": "50 ml",
       "estoque": 14,
       "status": "ativo",
-      "imagem": "/imagens/figosolar.png",
+      "imagem": "imagens/figosolar.png",
       "secao": "lancamentos"
     },
     {
@@ -84,7 +84,7 @@
       "volume": "50 ml",
       "estoque": 16,
       "status": "ativo",
-      "imagem": "/imagens/folhadeLouro.png",
+      "imagem": "imagens/folhadeLouro.png",
       "secao": "perfumes"
     },
     {
@@ -96,7 +96,7 @@
       "volume": "75 ml",
       "estoque": 11,
       "status": "ativo",
-      "imagem": "/imagens/bergamotaPera.png",
+      "imagem": "imagens/bergamotaPera.png",
       "secao": "perfumes"
     },
     {
@@ -108,7 +108,7 @@
       "volume": "50 ml",
       "estoque": 9,
       "status": "estoque-baixo",
-      "imagem": "/imagens/JardimSeda.png",
+      "imagem": "imagens/JardimSeda.png",
       "secao": "perfumes"
     },
     {
@@ -120,7 +120,7 @@
       "volume": "75 ml",
       "estoque": 13,
       "status": "ativo",
-      "imagem": "/imagens/BaunilaCipreste.png",
+      "imagem": "imagens/BaunilaCipreste.png",
       "secao": "perfumes"
     }
   ],

@@ -5,15 +5,16 @@
   </div>
 
   <nav class="menu">
-    <a href="#">Produtos</a>
-    <a href="#">Clientes</a>
-    <a href="#">Pedidos</a>
+    <a routerLink="/">Loja</a>
+    <a routerLink="/admin/Crud">Produtos</a>
+    <a routerLink="/pessoas/cadastro">Clientes</a>
   </nav>
 
-  <div class="usuario">
+  <div class="usuario menu">
     <span class="nome-usuario">
       {{ nomeAdministrador }}
     </span>
+    <a href="#" (click)="$event.preventDefault(); sair()">Sair</a>
   </div>
 
 </header>
@@ -115,13 +116,9 @@
         Todas as categorias
       </option>
 
-      <option value="perfume">
-        Perfume
-      </option>
-
-      <option value="colonia">
-        Colônia
-      </option>
+      @for (categoria of categorias; track categoria) {
+        <option [value]="categoria">{{ categoria }}</option>
+      }
 
     </select>
 
@@ -198,7 +195,8 @@
     <tbody>
 
    
-      <tr *ngFor="let produto of produtosFiltrados">
+      @for (produto of produtosFiltrados; track produto.id) {
+      <tr>
 
         <td>
           {{ produto.nome }}
@@ -237,9 +235,8 @@
         </td>
 
       </tr>
-
-
-      <tr *ngIf="produtosFiltrados.length === 0">
+      } @empty {
+      <tr>
 
         <td colspan="6">
 
@@ -248,6 +245,7 @@
         </td>
 
       </tr>
+      }
 
     </tbody>
 
@@ -256,7 +254,8 @@
 </section>
 
 
-<section class="alteracao-produto" *ngIf="produtoSelecionado">
+@if (produtoSelecionado) {
+<section class="alteracao-produto">
 
 
   <div class="cabecalho-alteracao">
@@ -264,11 +263,11 @@
     <div>
 
       <h2>
-        Alterar Produto
+        {{ produtoNovo ? 'Novo Produto' : 'Alterar Produto' }}
       </h2>
 
       <p>
-        Edite as informações do produto selecionado
+        {{ produtoNovo ? 'Preencha as informações do novo produto' : 'Edite as informações do produto selecionado' }}
       </p>
 
     </div>
@@ -291,11 +290,15 @@
 
     <div class="campo-produto">
 
-      <label for="categoria">
+      <label for="categoria-produto">
         Categoria
       </label>
 
-      <input type="text" id="categoria" [(ngModel)]="produtoSelecionado.categoria">
+      <select id="categoria-produto" [(ngModel)]="produtoSelecionado.categoria">
+        @for (categoria of categorias; track categoria) {
+          <option [value]="categoria">{{ categoria }}</option>
+        }
+      </select>
 
     </div>
 
@@ -317,7 +320,7 @@
         Estoque
       </label>
 
-      <input type="number" id="estoque" [(ngModel)]="produtoSelecionado.estoque">
+      <input type="number" id="estoque" min="0" [(ngModel)]="produtoSelecionado.estoque">
 
     </div>
 
@@ -328,7 +331,33 @@
         Preço
       </label>
 
-      <input type="number" id="preco" [(ngModel)]="produtoSelecionado.preco">
+      <input type="number" id="preco" min="0" step="0.01" [(ngModel)]="produtoSelecionado.preco">
+
+    </div>
+
+
+    <div class="campo-produto">
+
+      <label for="imagem">
+        Imagem (ex: imagens/cedro08.png)
+      </label>
+
+      <input type="text" id="imagem" [(ngModel)]="produtoSelecionado.imagem">
+
+    </div>
+
+
+    <div class="campo-produto">
+
+      <label for="secao">
+        Seção na loja
+      </label>
+
+      <select id="secao" [(ngModel)]="produtoSelecionado.secao">
+        <option value="">Não exibir na loja</option>
+        <option value="lancamentos">Lançamentos</option>
+        <option value="perfumes">Perfumes</option>
+      </select>
 
     </div>
 
@@ -339,17 +368,26 @@
 
     <button class="btn-salvar" (click)="salvarAlteracao()">
 
-      Salvar alterações
+      {{ produtoNovo ? 'Cadastrar produto' : 'Salvar alterações' }}
 
     </button>
 
 
+    <button class="btn-alterar" (click)="cancelar()">
+
+      Cancelar
+
+    </button>
+
+    @if (!produtoNovo) {
     <button class="btn-excluir-produto" (click)="excluirProduto(produtoSelecionado.id)">
 
       Excluir
 
     </button>
+    }
 
   </div>
 
 </section>
+}

@@ -8,7 +8,7 @@
 
                 @for(item of itensMenu; track item.id) {
                 <li class="navbar-item">
-                    <a (click)="navegarPara(item.id)">
+                    <a href="#" (click)="$event.preventDefault(); navegarPara(item.id)">
                         {{item.label}}
                     </a>
                 </li>
@@ -17,8 +17,17 @@
         </div>
 
         <div class="navbar-acoes">
-            <a [routerLink]="'/pessoas/login'">Minha Conta</a>
-            <a [routerLink]="'/pessoas/carrinho'">🛒Carrinho</a>
+            @if (sessao.usuario; as usuario) {
+                @if (usuario.admin) {
+                    <a routerLink="/admin/Crud">Administração</a>
+                } @else {
+                    <a routerLink="/">Olá, {{ usuario.nome }}</a>
+                }
+                <a href="#" (click)="$event.preventDefault(); sair()">Sair</a>
+            } @else {
+                <a routerLink="/pessoas/login">Minha Conta</a>
+            }
+            <a routerLink="/pessoas/carrinho">🛒Carrinho</a>
         </div>
     </div>
 </nav>

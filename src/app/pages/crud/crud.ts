@@ -1,36 +1,48 @@
-
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
-import { Produto } from '../../models/produtos';
-import { ProdutoService } from '../../services/produtos.service';
+import { Produto, calcularStatus } from '../../modelo/produto';
+import { ProdutoService } from '../../service/produto';
+import { SessaoService } from '../../service/sessao.service';
 
 @Component({
   selector: 'app-crud',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [DecimalPipe, FormsModule, RouterLink],
   templateUrl: './crud.html',
   styleUrl: './crud.css'
 })
 export class Crud implements OnInit {
+  private produtoService = inject(ProdutoService);
+  private sessao = inject(SessaoService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
-  nomeAdministrador: string = '';
+  nomeAdministrador = '';
 
   produtos: Produto[] = [];
   produtosFiltrados: Produto[] = [];
 
-  busca: string = '';
-  categoriaSelecionada: string = '';
-  statusSelecionado: string = '';
+  busca = '';
+  categoriaSelecionada = '';
+  statusSelecionado = '';
+
+  // Mesmos valores usados no db.json
+  categorias = ['Feminino', 'Masculino', 'Unissex'];
 
   produtoSelecionado: Produto | null = null;
-
-  produtoNovo: boolean = false;
-
-  constructor(private produtoService: ProdutoService) {}
+  produtoNovo = false;
 
   ngOnInit(): void {
+    // Área administrativa: só entra quem fez login como administrador
+    if (!this.sessao.ehAdmin) {
+      this.router.navigate(['/pessoas/login']);
+      return;
+    }
+
+    this.nomeAdministrador = this.sessao.usuario?.nome ?? '';
     this.carregarProdutos();
   }
 
@@ -39,6 +51,7 @@ export class Crud implements OnInit {
       next: (dados) => {
         this.produtos = dados;
         this.filtrarProdutos();
+        this.cdr.markForCheck();   // avisa o Angular para redesenhar a tela
       },
       error: (erro) => {
         console.error('Erro ao carregar produtos:', erro);
@@ -47,23 +60,11 @@ export class Crud implements OnInit {
     });
   }
 
-  definirStatus(estoque: number): string {
-    if (estoque === 0) {
-      return 'esgotado';
-    }
-
-    if (estoque <= 10) {
-      return 'estoque-baixo';
-    }
-
-    return 'ativo';
-  }
-
   filtrarProdutos(): void {
-    this.produtosFiltrados = this.produtos.filter(produto => {
+    const texto = this.busca.toLowerCase();
 
-      const correspondeBusca =
-        produto.nome.toLowerCase().includes(this.busca.toLowerCase());
+    this.produtosFiltrados = this.produtos.filter(produto => {
+      const correspondeBusca = produto.nome.toLowerCase().includes(texto);
 
       const correspondeCategoria =
         !this.categoriaSelecionada ||
@@ -73,9 +74,7 @@ export class Crud implements OnInit {
         !this.statusSelecionado ||
         produto.status === this.statusSelecionado;
 
-      return correspondeBusca &&
-             correspondeCategoria &&
-             correspondeStatus;
+      return correspondeBusca && correspondeCategoria && correspondeStatus;
     });
   }
 
@@ -84,49 +83,65 @@ export class Crud implements OnInit {
     this.produtoNovo = false;
   }
 
-  salvarAlteracao(): void {
+  novoProduto(): void {
+    this.produtoSelecionado = {
+      nome: '',
+      categoria: 'Unissex',
+      preco: 0,
+      estoque: 0,
+      status: 'esgotado',
+      volume: '',
+      imagem: '',
+      secao: ''
+    };
+    this.produtoNovo = true;
+  }
 
-    if (!this.produtoSelecionado) {
+  cancelar(): void {
+    this.produtoSelecionado = null;
+    this.produtoNovo = false;
+  }
+
+  salvarAlteracao(): void {
+    const produto = this.produtoSelecionado;
+
+    if (!produto) {
       return;
     }
 
-    if (!this.produtoSelecionado.nome.trim()) {
+    if (!produto.nome.trim()) {
       alert('Informe o nome do produto.');
       return;
     }
 
-    this.produtoSelecionado.status =
-      this.definirStatus(this.produtoSelecionado.estoque);
+    if (produto.preco < 0 || produto.estoque < 0) {
+      alert('Preço e estoque não podem ser negativos.');
+      return;
+    }
+
+    produto.status = calcularStatus(produto.estoque);
 
     if (this.produtoNovo) {
-
-      const novoProduto = { ...this.produtoSelecionado };
+      const novoProduto = { ...produto };
       delete novoProduto.id;
 
-      this.produtoService.cadastrar(novoProduto).subscribe({
+      this.produtoService.incluir(novoProduto).subscribe({
         next: () => {
-          alert('Produto cadastrado com sucesso!');
-          this.produtoSelecionado = null;
-          this.produtoNovo = false;
+          this.cancelar();
           this.carregarProdutos();
+          alert('Produto cadastrado com sucesso!');
         },
         error: (erro) => {
           console.error(erro);
           alert('Erro ao cadastrar produto.');
         }
       });
-
     } else {
-
-      if (this.produtoSelecionado.id === undefined) {
-        return;
-      }
-
-      this.produtoService.atualizar(this.produtoSelecionado.id, this.produtoSelecionado).subscribe({
+      this.produtoService.editar(produto).subscribe({
         next: () => {
-          alert('Produto alterado com sucesso!');
-          this.produtoSelecionado = null;
+          this.cancelar();
           this.carregarProdutos();
+          alert('Produto alterado com sucesso!');
         },
         error: (erro) => {
           console.error(erro);
@@ -136,71 +151,46 @@ export class Crud implements OnInit {
     }
   }
 
-  excluirProduto(id: number | string | undefined): void {
-  if (id === undefined) {
-    alert('ID do produto não encontrado.');
-    return;
+  excluirProduto(id: string | undefined): void {
+    if (!id || !confirm('Deseja realmente excluir este produto?')) {
+      return;
+    }
+
+    this.produtoService.excluir(id).subscribe({
+      next: () => {
+        if (this.produtoSelecionado?.id === id) {
+          this.cancelar();
+        }
+        this.carregarProdutos();
+        alert('Produto excluído com sucesso!');
+      },
+      error: (erro) => {
+        console.error('Erro ao excluir produto:', erro);
+        alert('Erro ao excluir produto.');
+      }
+    });
   }
 
-  const idNumerico = Number(id);
-
-  const confirmar = confirm('Deseja realmente excluir este produto?');
-
-  if (!confirmar) return;
-
-  this.produtoService.excluir(id).subscribe({
-    next: () => {
-      if (this.produtoSelecionado?.id == id) {
-        this.produtoSelecionado = null;
-      }
-
-      this.carregarProdutos();
-      alert('Produto excluído com sucesso!');
-    },
-    error: (erro) => {
-      console.error('Erro ao excluir produto:', erro);
-      alert('Erro ao excluir produto.');
-    }
-  });
-}
-
-  novoProduto(): void {
-
-    const novo: Produto = {
-      nome: '',
-      categoria: 'perfume',
-      preco: 0,
-      estoque: 0,
-      status: 'esgotado',
-      volume: ''
-    };
-
-    this.produtoSelecionado = novo;
-    this.produtoNovo = true;
+  sair(): void {
+    this.sessao.sair();
+    this.router.navigate(['/']);
   }
 
   get produtosAtivos(): number {
-    return this.produtos.filter(
-      produto => produto.status === 'ativo'
-    ).length;
+    return this.produtos.filter(produto => produto.status === 'ativo').length;
   }
 
   get estoqueBaixo(): number {
-    return this.produtos.filter(
-      produto => produto.status === 'estoque-baixo'
-    ).length;
+    return this.produtos.filter(produto => produto.status === 'estoque-baixo').length;
   }
 
   get esgotados(): number {
-    return this.produtos.filter(
-      produto => produto.status === 'esgotado'
-    ).length;
+    return this.produtos.filter(produto => produto.status === 'esgotado').length;
   }
 
   get valorEstoque(): number {
     return this.produtos.reduce(
-      (total, produto) =>
-        total + (produto.preco * produto.estoque),
+      (total, produto) => total + (produto.preco * produto.estoque),
       0
     );
   }

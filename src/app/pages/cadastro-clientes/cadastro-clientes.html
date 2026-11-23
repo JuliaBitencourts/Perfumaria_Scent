@@ -3,9 +3,9 @@
 
 <main class="pagina">
 
-  <h1>Meu cadastro</h1>
+  <h1>{{ ehAdmin ? 'Clientes' : 'Criar cadastro' }}</h1>
 
-  <p>Atualize seus dados pessoais.</p>
+  <p>{{ ehAdmin ? 'Cadastre, altere ou exclua clientes.' : 'Preencha seus dados para criar sua conta.' }}</p>
 
   @if (mensagem) {
     <p class="mensagem">{{ mensagem }}</p>
@@ -21,10 +21,10 @@
       <input type="text" name="nome" [(ngModel)]="cliente.nome">
 
       <label>E-mail</label>
-      <input type="email" name="email" [(ngModel)]="cliente.email">
+      <input type="email" name="email" autocomplete="username" [(ngModel)]="cliente.email">
 
       <label>CPF</label>
-      <input type="text" name="cpf" [(ngModel)]="cliente.cpf" maxlength="11">
+      <input type="text" name="cpf" [(ngModel)]="cliente.cpf" maxlength="11" placeholder="Somente números">
 
       <label>Telefone</label>
       <input type="text" name="telefone" [(ngModel)]="cliente.telefone" maxlength="11">
@@ -33,11 +33,14 @@
       <input type="text" name="endereco" [(ngModel)]="cliente.endereco">
 
       <label>Senha</label>
-      <input type="text" name="senha" [(ngModel)]="cliente.senha">
+      <input type="password" name="senha" autocomplete="new-password" [(ngModel)]="cliente.senha">
+
+      <label>Confirmar senha</label>
+      <input type="password" name="confirmarSenha" autocomplete="new-password" [(ngModel)]="confirmarSenha">
 
       <div class="botoes">
 
-        <button type="submit" class="principal">
+        <button type="submit" class="principal" [disabled]="salvando">
           {{ editando ? 'Salvar alterações' : 'Cadastrar' }}
         </button>
 
@@ -51,6 +54,7 @@
 
   </section>
 
+  @if (ehAdmin) {
   <section class="cartao">
 
     <h2>Clientes cadastrados</h2>
@@ -113,5 +117,6 @@
     }
 
   </section>
+  }
 
 </main>

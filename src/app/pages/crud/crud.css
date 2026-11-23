@@ -277,7 +277,8 @@
   color: #333333;
 }
 
-.campo-produto input {
+.campo-produto input,
+.campo-produto select {
   height: 42px;
   padding: 0 12px;
   border: 1px solid #d9d9d9;
@@ -289,7 +290,8 @@
   box-sizing: border-box;
 }
 
-.campo-produto input:focus {
+.campo-produto input:focus,
+.campo-produto select:focus {
   border-color: #888888;
 }
 

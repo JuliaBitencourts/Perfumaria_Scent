@@ -1,6 +1,17 @@
+/* Estilos globais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
 
-}/* You can add global styles to this file, and also import other style files */
+/* O site foi desenhado com fundo claro: fixa as cores para que navegadores
+   em modo escuro não deixem o texto escuro sobre fundo escuro */
+html {
+    color-scheme: light;
+}
+
+body {
+    background-color: #ffffff;
+    color: #171717;
+}

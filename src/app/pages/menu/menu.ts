@@ -1,6 +1,7 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { SessaoService } from '../../service/sessao.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,13 +11,14 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './menu.css'
 })
 export class Menu {
+  private router = inject(Router);
+  sessao = inject(SessaoService);
+
   itensMenu = [
     { label: 'Novidades', id: 'novidades' },
     { label: 'Nossa Essência', id: 'nossa-essencia' },
     { label: 'Perfumes', id: 'perfumes' }
   ];
-
-  constructor(private router: Router) {}
 
   navegarPara(id: string): void {
     const secao = document.getElementById(id);
@@ -34,5 +36,10 @@ export class Menu {
         });
       }, 100);
     });
+  }
+
+  sair(): void {
+    this.sessao.sair();
+    this.router.navigate(['/']);
   }
 }
