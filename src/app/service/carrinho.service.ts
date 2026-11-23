@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Produto } from '../modelo/produto';
 
 export interface ItemCarrinho {
-  id?: string;        // gerado pelo json-server (id do ITEM no carrinho)
-  produtoId: string;  // id do PRODUTO (para saber se já está no carrinho)
+  produtoId: string;  // id do PRODUTO (identifica o item no carrinho)
   nome: string;
   descricao: string;
   preco: number;
@@ -13,29 +11,79 @@ export interface ItemCarrinho {
   quantidade: number;
 }
 
+// O carrinho fica guardado no NAVEGADOR (localStorage), e não na API.
+// Assim, nada é gravado no db.json enquanto o cliente monta a compra:
+// a API só recebe o pedido quando ele clica em "Finalizar compra".
+// O localStorage mantém o carrinho mesmo se a página for recarregada.
 @Injectable({ providedIn: 'root' })
 export class CarrinhoService {
-  private readonly API = 'http://localhost:3000/carrinho';
+  private readonly CHAVE = 'scent-carrinho';
 
-  constructor(private http: HttpClient) {}
-
-  // GET: todos os itens do carrinho
-  listar(): Observable<ItemCarrinho[]> {
-    return this.http.get<ItemCarrinho[]>(this.API);
+  // Consulta: itens do carrinho
+  listar(): ItemCarrinho[] {
+    try {
+      const salvo = localStorage.getItem(this.CHAVE);
+      return salvo ? JSON.parse(salvo) : [];
+    } catch {
+      return [];
+    }
   }
 
-  // POST: inclusão
-  incluir(item: ItemCarrinho): Observable<ItemCarrinho> {
-    return this.http.post<ItemCarrinho>(this.API, item);
+  // Inclusão: adiciona o produto ou soma 1 na quantidade se ele já estiver no carrinho.
+  // Retorna false quando não há mais estoque para adicionar.
+  adicionar(produto: Produto): boolean {
+    const itens = this.listar();
+    const item = itens.find(i => i.produtoId === produto.id);
+
+    if (item) {
+      if (item.quantidade >= item.estoque) {
+        return false;
+      }
+      item.quantidade++;
+    } else {
+      if (produto.estoque <= 0) {
+        return false;
+      }
+      itens.push({
+        produtoId: produto.id!,
+        nome: produto.nome,
+        descricao: `Eau de Parfum · ${produto.volume}`,
+        preco: produto.preco,
+        imagem: produto.imagem ?? '',
+        estoque: produto.estoque,
+        quantidade: 1,
+      });
+    }
+
+    this.salvar(itens);
+    return true;
   }
 
-  // PUT: alteração (usada para mudar a quantidade)
-  alterar(item: ItemCarrinho): Observable<ItemCarrinho> {
-    return this.http.put<ItemCarrinho>(`${this.API}/${item.id}`, item);
+  // Alteração: muda a quantidade de um item
+  alterarQuantidade(produtoId: string, quantidade: number): void {
+    const itens = this.listar();
+    const item = itens.find(i => i.produtoId === produtoId);
+    if (item) {
+      item.quantidade = quantidade;
+      this.salvar(itens);
+    }
   }
 
-  // DELETE: exclusão
-  excluir(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.API}/${id}`);
+  // Exclusão: tira um item do carrinho
+  remover(produtoId: string): void {
+    this.salvar(this.listar().filter(i => i.produtoId !== produtoId));
+  }
+
+  // Esvazia o carrinho (depois de finalizar a compra)
+  limpar(): void {
+    this.salvar([]);
+  }
+
+  private salvar(itens: ItemCarrinho[]): void {
+    try {
+      localStorage.setItem(this.CHAVE, JSON.stringify(itens));
+    } catch {
+      // Navegador sem acesso ao localStorage: o carrinho vale só até recarregar a página
+    }
   }
 }

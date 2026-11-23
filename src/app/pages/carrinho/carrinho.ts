@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PedidoService } from '../../service/pedido.service';
 import { CarrinhoService, ItemCarrinho } from '../../service/carrinho.service';
@@ -22,52 +22,29 @@ export class Carrinho implements OnInit {
   private produtoService = inject(ProdutoService);
   private sessao = inject(SessaoService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
 
   produtos: ItemCarrinho[] = [];
 
-  // Ao abrir a página, busca os itens na API (GET)
+  // Ao abrir a página, lê os itens guardados no navegador (não usa a API)
   ngOnInit() {
-    this.carrinhoService.listar().subscribe({
-      next: (itens) => {
-        // Caminho relativo (sem "/" no início) para funcionar no GitHub Pages
-        itens.forEach(i => i.imagem = i.imagem.replace(/^\//, ''));
-        this.produtos = itens;
-        this.cdr.markForCheck();   // avisa o Angular para redesenhar a tela
-      },
-      error: () => alert('Erro ao carregar o carrinho.'),
-    });
+    this.produtos = this.carrinhoService.listar();
   }
 
   aumentar(item: ItemCarrinho) {
     if (item.quantidade >= item.estoque) return;
-    this.mudarQuantidade(item, +1);
+    item.quantidade++;
+    this.carrinhoService.alterarQuantidade(item.produtoId, item.quantidade);
   }
 
   diminuir(item: ItemCarrinho) {
     if (item.quantidade <= 1) return;
-    this.mudarQuantidade(item, -1);
-  }
-
-  // PUT: altera a quantidade; se a API falhar, volta ao valor anterior
-  private mudarQuantidade(item: ItemCarrinho, delta: number) {
-    item.quantidade += delta;
-    this.carrinhoService.alterar(item).subscribe({
-      error: () => {
-        item.quantidade -= delta;
-        this.cdr.markForCheck();
-        alert('Erro ao alterar a quantidade.');
-      },
-    });
+    item.quantidade--;
+    this.carrinhoService.alterarQuantidade(item.produtoId, item.quantidade);
   }
 
   excluir(item: ItemCarrinho) {
-    this.carrinhoService.excluir(item.id!).subscribe({   // DELETE
-      next: () => {
-        this.produtos = this.produtos.filter(p => p.id !== item.id);
-        this.cdr.markForCheck();
-      },
-    });
+    this.carrinhoService.remover(item.produtoId);
+    this.produtos = this.produtos.filter(p => p.produtoId !== item.produtoId);
   }
 
   get subtotal(): number {
@@ -110,26 +87,25 @@ export class Carrinho implements OnInit {
       data: new Date().toISOString(),
     };
 
+    // Só aqui, ao finalizar, a compra vai para a API:
+    // 1) POST do pedido  2) PUT do estoque de cada produto
     this.pedidoService.incluir(pedido).subscribe({
       next: (salvo) => {
-        // Pedido salvo: para cada item, baixa o estoque e tira do carrinho (DELETE).
         // O concat executa UMA chamada por vez: o json-server grava tudo no mesmo
         // db.json, e gravações simultâneas podiam desfazer umas às outras.
-        const operacoes = this.produtos.flatMap(p => [
-          this.baixarEstoque(p.produtoId, p.quantidade),
-          this.carrinhoService.excluir(p.id!),
-        ]);
+        const operacoes = this.produtos.map(p => this.baixarEstoque(p.produtoId, p.quantidade));
 
         concat(...operacoes).subscribe({
           complete: () => {
+            this.carrinhoService.limpar();   // esvazia o carrinho do navegador
             this.produtos = [];
             alert(`Pedido ${salvo.id} finalizado com sucesso!`);
             this.router.navigate(['/']);
           },
-          error: () => alert(`Pedido ${salvo.id} salvo, mas houve erro ao atualizar o estoque/carrinho.`),
+          error: () => alert(`Pedido ${salvo.id} salvo, mas houve erro ao atualizar o estoque.`),
         });
       },
-      error: () => alert('Erro ao finalizar o pedido.'),
+      error: () => alert('Erro ao finalizar o pedido. Verifique se a API está rodando.'),
     });
   }
 

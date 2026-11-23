@@ -34,39 +34,12 @@ export class Body implements OnInit {
   }
 
   adicionar(produto: Produto) {
-    // 1) Busca o carrinho na API e procura se esse produto já está nele
-    this.carrinhoService.listar().subscribe({
-      next: (itens) => {
-        const item = itens.find(i => i.produtoId === produto.id);
-
-        if (item) {
-          // 2a) Já está: aumenta a quantidade (PUT)
-          if (item.quantidade >= item.estoque) {
-            alert('Quantidade máxima em estoque atingida.');
-            return;
-          }
-          item.quantidade++;
-          this.carrinhoService.alterar(item).subscribe({
-            next: () => alert(`${produto.nome} adicionado ao carrinho!`),
-            error: () => alert('Erro ao salvar no carrinho.'),
-          });
-        } else {
-          // 2b) Não está: inclui um item novo (POST)
-          this.carrinhoService.incluir({
-            produtoId: produto.id!,
-            nome: produto.nome,
-            descricao: `Eau de Parfum · ${produto.volume}`,
-            preco: produto.preco,
-            imagem: produto.imagem ?? '',
-            estoque: produto.estoque,
-            quantidade: 1,
-          }).subscribe({
-            next: () => alert(`${produto.nome} adicionado ao carrinho!`),
-            error: () => alert('Erro ao salvar no carrinho.'),
-          });
-        }
-      },
-      error: () => alert('Erro ao adicionar ao carrinho. A API está rodando?'),
-    });
+    // O carrinho fica no navegador: nada é gravado na API aqui.
+    // A API só recebe o pedido quando o cliente finaliza a compra.
+    if (this.carrinhoService.adicionar(produto)) {
+      alert(`${produto.nome} adicionado ao carrinho!`);
+    } else {
+      alert('Quantidade máxima em estoque atingida.');
+    }
   }
 }
